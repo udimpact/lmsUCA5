@@ -1,0 +1,868 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>underdogs. learning</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --black:#111111;
+  --white:#ffffff;
+  --cream:#f5f1e8;
+  --red:#ff3c45;
+  --yellow:#ffd529;
+  --blue:#478cff;
+  --mint:#9ee66f;
+  --pink:#ff87bc;
+  --purple:#9b72ff;
+  --ink2:#292929;
+  --muted:#77736d;
+  --line:#d9d3c8;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--cream);color:var(--black)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit}
+.hidden{display:none!important}
+.local-warning{display:none;padding:10px 18px;text-align:center;background:#fff0ae;border-bottom:1px solid #dec76c;font-size:12px}
+
+/* LOGIN */
+.login-page{min-height:100vh;background:var(--black);color:white;display:grid;grid-template-columns:1.15fr .85fr}
+.login-brand{padding:64px 6vw;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.logo{font-size:28px;font-weight:900;letter-spacing:-1.8px}
+.logo .dot{color:var(--red)}
+.login-message{position:relative;z-index:2;max-width:740px}
+.login-kicker{font-size:10px;font-weight:900;letter-spacing:2px;color:var(--yellow);margin-bottom:18px}
+.login-message h1{font-size:clamp(54px,7vw,108px);line-height:.88;letter-spacing:-6px;margin:0 0 28px;font-weight:900}
+.login-message h1 span{color:var(--red)}
+.login-message p{max-width:590px;font-size:15px;line-height:1.7;color:#bdbdbd}
+.color-shape{position:absolute;border-radius:50%}
+.s1{width:430px;height:430px;background:var(--blue);right:-180px;top:-120px}
+.s2{width:250px;height:250px;background:var(--pink);right:110px;bottom:-140px}
+.s3{width:130px;height:130px;background:var(--yellow);right:20px;bottom:70px}
+.login-foot{font-size:10px;letter-spacing:.8px;color:#777;position:relative;z-index:2}
+
+.login-panel{background:var(--cream);color:var(--black);padding:56px;display:flex;align-items:center}
+.login-box{width:100%;max-width:480px;margin:auto}
+.stepno{font-size:11px;font-weight:900;letter-spacing:1.6px;color:var(--red)}
+.login-box h2{font-size:43px;line-height:1;letter-spacing:-2px;margin:10px 0 12px}
+.login-box .intro{font-size:13px;line-height:1.7;color:var(--muted);margin-bottom:32px}
+.field{margin-top:18px}
+.field label{display:block;font-size:9px;font-weight:900;letter-spacing:1.2px;margin-bottom:8px}
+.field select,.field input{width:100%;height:52px;border:1px solid #bdb6aa;background:white;padding:0 14px;outline:none;border-radius:0}
+.or{display:flex;align-items:center;gap:12px;color:#9a958b;font-size:9px;font-weight:900;letter-spacing:1px;margin:18px 0}
+.or:before,.or:after{content:"";height:1px;background:#ccc5b9;flex:1}
+.login-btn{width:100%;height:54px;border:0;background:var(--black);color:white;font-size:11px;font-weight:900;letter-spacing:.7px;margin-top:22px}
+.login-btn:hover{background:var(--red)}
+.login-note{margin-top:15px;font-size:10px;line-height:1.5;color:#8d887f}
+.resume-note{margin-top:20px;padding:14px;background:var(--yellow);font-size:11px;font-weight:700;display:none}
+
+/* APP HEADER */
+.app-header{height:76px;background:var(--black);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:80}
+.app-logo{font-size:24px;font-weight:900;letter-spacing:-1.5px}
+.app-logo span{color:var(--red)}
+.nav{display:flex;gap:4px}
+.nav button{border:0;background:transparent;color:#8d8d8d;font-size:10px;font-weight:900;letter-spacing:.8px;padding:10px 15px}
+.nav button.active{color:white;background:#242424}
+.user-area{display:flex;align-items:center;gap:11px}
+.user-copy{text-align:right}
+.user-copy b{display:block;font-size:11px}
+.user-copy small{font-size:8px;color:#888;letter-spacing:.8px}
+.user-avatar{width:36px;height:36px;background:var(--red);display:grid;place-items:center;font-size:10px;font-weight:900}
+.logout{border:1px solid #3a3a3a;background:transparent;color:#aaa;padding:8px 10px;font-size:8px;font-weight:900;letter-spacing:.6px}
+
+/* COURSE */
+.course-layout{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:calc(100vh - 76px)}
+.sidebar{background:white;border-right:1px solid var(--line);padding:26px 17px 38px;position:sticky;top:76px;height:calc(100vh - 76px);overflow:auto}
+.side-eyebrow{font-size:9px;font-weight:900;letter-spacing:1.5px;color:var(--red);margin:0 9px 9px}
+.side-title{font-size:25px;line-height:1.05;letter-spacing:-1px;margin:0 9px 18px}
+.progress-panel{background:var(--yellow);padding:15px;margin:0 3px 22px}
+.progress-line{display:flex;justify-content:space-between;font-size:9px;font-weight:900}
+.progress-track{height:4px;background:rgba(0,0,0,.18);margin-top:10px}
+.progress-fill{height:100%;background:var(--black);width:0%;transition:.25s}
+.side-label{font-size:8px;letter-spacing:1.2px;font-weight:900;color:#9b968e;margin:0 9px 8px}
+.lesson-link{width:100%;border:0;border-top:1px solid #ece7dd;background:white;padding:11px 8px;display:grid;grid-template-columns:32px 1fr 20px;gap:9px;text-align:left;align-items:center}
+.lesson-link:last-child{border-bottom:1px solid #ece7dd}
+.lesson-link:hover{background:#f7f3ea}
+.lesson-link.active{background:var(--black);color:white}
+.ln-num{font-size:9px;font-weight:900;color:#999}
+.lesson-link.active .ln-num{color:var(--yellow)}
+.ln-copy b{display:block;font-size:11px;line-height:1.3}
+.ln-copy small{display:block;font-size:7px;font-weight:800;letter-spacing:1px;color:#9b978f;margin-top:3px}
+.ln-done{display:none;width:18px;height:18px;border-radius:50%;background:var(--mint);color:#111;place-items:center;font-size:9px;font-weight:900}
+.lesson-link.completed .ln-done{display:grid}
+
+.main{padding:38px 44px 65px;max-width:1280px;width:100%;margin:0 auto}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:32px;align-items:end;margin-bottom:24px}
+.kicker{font-size:9px;letter-spacing:1.7px;font-weight:900;color:var(--red)}
+.hero h1{font-size:49px;line-height:.98;letter-spacing:-2.5px;margin:10px 0 10px}
+.hero p{font-size:13px;line-height:1.65;color:#6d6963;margin:0;max-width:760px}
+.phase-card{padding:19px;background:var(--blue);min-height:112px;display:flex;flex-direction:column;justify-content:space-between}
+.phase-card small{font-size:8px;letter-spacing:1.2px;font-weight:900}
+.phase-card b{font-size:28px;letter-spacing:-1px}
+.video{background:black;aspect-ratio:16/9}
+.video iframe{width:100%;height:100%;border:0;display:block}
+.controls{padding:17px 0 25px;border-bottom:1px solid #cfc8bc;display:flex;justify-content:space-between;gap:12px}
+.control-group{display:flex;gap:7px}
+.btn{border:1px solid #bfb8ac;background:transparent;padding:10px 14px;font-size:9px;font-weight:900;letter-spacing:.6px}
+.btn:hover{background:white}
+.btn.next{background:var(--red);border-color:var(--red);color:white}
+.btn.complete{background:var(--black);border-color:var(--black);color:white}
+.btn.complete.done{background:var(--mint);border-color:var(--mint);color:#111}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.info-grid{display:grid;grid-template-columns:1.45fr .75fr;border-bottom:1px solid #cfc8bc}
+.info-main{padding:31px 35px 34px 0;border-right:1px solid #cfc8bc}
+.info-side{padding:31px 0 34px 35px}
+.section-label{font-size:8px;letter-spacing:1.5px;font-weight:900;color:#999}
+.info-grid h2{font-size:25px;letter-spacing:-1px;margin:9px 0 12px}
+.info-grid p{font-size:12px;line-height:1.75;color:#67635d;margin:0}
+.learn-list{list-style:none;padding:0;margin:20px 0 0}
+.learn-list li{border-top:1px solid #d6d0c5;padding:11px 0;display:grid;grid-template-columns:22px 1fr;gap:8px;font-size:11px;line-height:1.5}
+.learn-list .arrow{color:var(--red);font-weight:900}
+.output-title{font-size:30px!important;line-height:1.04}
+.output-tag{display:inline-block;background:var(--yellow);padding:7px 9px;margin-top:18px;font-size:8px;font-weight:900;letter-spacing:.8px}
+
+/* MY JOURNEY */
+.journey-page{max-width:1200px;margin:0 auto;padding:44px 44px 70px}
+.journey-hero{display:grid;grid-template-columns:1.25fr .75fr;gap:0;border:1px solid var(--black)}
+.journey-title{background:var(--black);color:white;padding:42px}
+.journey-title .kicker{color:var(--yellow)}
+.journey-title h1{font-size:64px;line-height:.9;letter-spacing:-3.6px;margin:13px 0 18px}
+.journey-title p{font-size:13px;line-height:1.65;color:#aaa;max-width:600px}
+.journey-score{background:var(--yellow);padding:35px;display:flex;flex-direction:column;justify-content:space-between}
+.score-number{font-size:92px;line-height:.8;font-weight:900;letter-spacing:-6px}
+.score-caption{font-size:9px;font-weight:900;letter-spacing:1.1px}
+.next-block{display:grid;grid-template-columns:1fr 1fr;margin-top:18px}
+.next-session{background:var(--blue);padding:28px;min-height:185px}
+.next-session small,.output-summary small{display:block;font-size:8px;letter-spacing:1.2px;font-weight:900;margin-bottom:22px}
+.next-session .big-index{font-size:53px;font-weight:900;letter-spacing:-2px}
+.next-session h2{font-size:22px;letter-spacing:-.8px;margin:4px 0 0}
+.output-summary{background:var(--pink);padding:28px;min-height:185px}
+.output-summary strong{font-size:46px;line-height:1;font-weight:900;letter-spacing:-2px;display:block}
+.output-summary p{font-size:11px;line-height:1.5;margin:10px 0 0}
+.phase-progress{margin-top:36px}
+.phase-progress h2{font-size:28px;letter-spacing:-1.2px;margin:7px 0 18px}
+.phase-row{display:grid;grid-template-columns:145px 1fr 70px;gap:14px;align-items:center;border-top:1px solid #cfc8bc;padding:16px 0}
+.phase-row:last-child{border-bottom:1px solid #cfc8bc}
+.phase-name{font-size:11px;font-weight:900}
+.phase-bar{height:14px;background:#ddd6cb;position:relative}
+.phase-bar div{height:100%}
+.phase-count{text-align:right;font-size:10px;font-weight:900}
+.output-wall{margin-top:38px}
+.output-wall h2{font-size:28px;letter-spacing:-1.2px;margin:8px 0 18px}
+.outputs{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid #cfc8bc;border-left:1px solid #cfc8bc}
+.output-item{border-right:1px solid #cfc8bc;border-bottom:1px solid #cfc8bc;padding:18px;min-height:100px}
+.output-item.done{background:white}
+.output-item .oi-top{display:flex;justify-content:space-between;gap:10px}
+.output-item .oi-num{font-size:9px;font-weight:900;color:#999}
+.output-item .oi-state{font-size:8px;font-weight:900;letter-spacing:.8px}
+.output-item.done .oi-state{color:#118451}
+.output-item b{display:block;font-size:13px;margin-top:20px}
+.journey-actions{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap}
+.backup-status{font-size:9px;color:#777;margin-top:12px}
+
+/* ABOUT */
+.about-page{max-width:1280px;margin:0 auto;padding:44px 44px 70px}
+.about-hero{background:var(--red);padding:55px;position:relative;overflow:hidden}
+.about-hero:after{content:"";position:absolute;width:320px;height:320px;border-radius:50%;background:var(--yellow);right:-80px;top:-100px}
+.about-hero .kicker{color:#111;position:relative;z-index:2}
+.about-hero h1{font-size:70px;line-height:.9;letter-spacing:-4px;margin:15px 0 20px;max-width:850px;position:relative;z-index:2}
+.about-hero p{max-width:650px;font-size:13px;line-height:1.7;position:relative;z-index:2}
+.values{display:grid;grid-template-columns:repeat(4,1fr);margin-top:18px}
+.value{padding:24px;min-height:180px}
+.value:nth-child(1){background:var(--yellow)}
+.value:nth-child(2){background:var(--blue)}
+.value:nth-child(3){background:var(--mint)}
+.value:nth-child(4){background:var(--pink)}
+.value b{font-size:19px;letter-spacing:-.6px}
+.value p{font-size:10px;line-height:1.55;margin-top:25px}
+.ecosystem{margin-top:44px}
+.ecosystem h2{font-size:38px;letter-spacing:-1.8px;margin:8px 0 8px}
+.ecosystem-intro{font-size:12px;line-height:1.7;color:#69655f;max-width:760px;margin-bottom:22px}
+.network-grid{display:grid;grid-template-columns:repeat(2,1fr);border-top:1px solid #cfc8bc;border-left:1px solid #cfc8bc}
+.network-card{border-right:1px solid #cfc8bc;border-bottom:1px solid #cfc8bc;padding:27px;min-height:210px;display:flex;flex-direction:column;justify-content:space-between}
+.network-card:nth-child(1){background:#fff}
+.network-card:nth-child(2){background:#ebe7df}
+.network-card:nth-child(3){background:#fff}
+.network-card:nth-child(4){background:#ebe7df}
+.network-card .nc-num{font-size:9px;font-weight:900;color:#888}
+.network-card h3{font-size:29px;letter-spacing:-1.4px;margin:22px 0 8px}
+.network-card p{font-size:10px;line-height:1.6;color:#6c6861;max-width:460px}
+.network-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-size:9px;font-weight:900;letter-spacing:.7px;margin-top:18px}
+.network-link:hover{color:var(--red)}
+.about-source{font-size:9px;color:#8e8981;margin-top:20px;line-height:1.6}
+
+/* RESPONSIVE */
+@media(max-width:980px){
+  .login-page{grid-template-columns:1fr}
+  .login-brand{min-height:52vh;padding:42px}
+  .login-panel{padding:42px}
+  .course-layout{grid-template-columns:260px 1fr}
+  .main{padding:32px 24px 55px}
+  .hero h1{font-size:40px}
+  .journey-page,.about-page{padding:34px 24px 55px}
+  .journey-title h1{font-size:50px}
+  .values{grid-template-columns:1fr 1fr}
+}
+@media(max-width:740px){
+  .login-brand{min-height:46vh;padding:28px 22px}
+  .login-message h1{letter-spacing:-3.5px}
+  .login-panel{padding:32px 22px}
+  .app-header{height:auto;min-height:72px;flex-wrap:wrap;padding:12px 14px;gap:9px}
+  .nav{order:3;width:100%;justify-content:center;border-top:1px solid #292929;padding-top:8px}
+  .user-copy{display:none}
+  .course-layout{display:block}
+  .sidebar{position:relative;top:auto;height:auto;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
+  .main{padding:25px 15px 45px}
+  .hero{grid-template-columns:1fr;gap:13px}
+  .hero h1{font-size:36px}
+  .phase-card{min-height:auto}
+  .controls{flex-direction:column}
+  .control-group{display:grid;grid-template-columns:1fr 1fr}
+  .btn.complete{width:100%}
+  .info-grid{grid-template-columns:1fr}
+  .info-main{padding:27px 0;border-right:0;border-bottom:1px solid #cfc8bc}
+  .info-side{padding:27px 0}
+  .journey-page,.about-page{padding:25px 15px 45px}
+  .journey-hero{grid-template-columns:1fr}
+  .journey-title{padding:28px 23px}
+  .journey-title h1{font-size:42px}
+  .journey-score{min-height:180px}
+  .next-block{grid-template-columns:1fr}
+  .phase-row{grid-template-columns:95px 1fr 50px}
+  .outputs{grid-template-columns:1fr}
+  .about-hero{padding:35px 24px}
+  .about-hero h1{font-size:45px;letter-spacing:-2.5px}
+  .values,.network-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="localWarning" class="local-warning">For reliable YouTube playback and progress storage, publish this file on GitHub Pages instead of opening it as a file:// URL.</div>
+
+<!-- LOGIN -->
+<section id="loginPage" class="login-page">
+  <div class="login-brand">
+    <div class="logo">underdogs<span class="dot">.</span></div>
+    <div class="color-shape s1"></div>
+    <div class="color-shape s2"></div>
+    <div class="color-shape s3"></div>
+
+    <div class="login-message">
+      <div class="login-kicker">ACT FIRST. LEARN BY DOING.</div>
+      <h1>Build through<br><span>execution.</span></h1>
+      <p>A ten-session startup journey that moves from finding a real problem to testing whether the market actually wants your solution.</p>
+    </div>
+
+    <div class="login-foot">underdogs. · Entrepreneurship learning for people who execute.</div>
+  </div>
+
+  <div class="login-panel">
+    <div class="login-box">
+      <div class="stepno">01 · ENTER THE COURSE</div>
+      <h2>Who are you?</h2>
+      <p class="intro">Choose your name if it is already listed. If not, enter your name below and your learner profile will be created automatically.</p>
+
+      <div class="field">
+        <label>SELECT YOUR NAME</label>
+        <select id="knownLearner">
+          <option value="">Choose from the list</option>
+          <option value="Akash Gupta">Akash Gupta</option>
+<option value="Akash Nagar">Akash Nagar</option>
+<option value="Alshiffa Saifi">Alshiffa Saifi</option>
+<option value="Ankit Gosh">Ankit Gosh</option>
+<option value="Ashta Jain">Ashta Jain</option>
+<option value="Avika Sharama">Avika Sharama</option>
+<option value="Mahima Nagpal">Mahima Nagpal</option>
+<option value="Mohit Jain">Mohit Jain</option>
+<option value="Priya Pandey">Priya Pandey</option>
+<option value="Shrishti Saxena">Shrishti Saxena</option>
+<option value="Umang Goyal">Umang Goyal</option>
+<option value="Priyanka">Priyanka</option>
+<option value="Deep Chakraborty">Deep Chakraborty</option>
+<option value="Rupinder Singh">Rupinder Singh</option>
+        </select>
+      </div>
+
+      <div class="or">OR</div>
+
+      <div class="field">
+        <label>ADD YOUR NAME</label>
+        <input id="newLearner" type="text" placeholder="Type your full name" maxlength="80">
+      </div>
+
+      <button id="loginBtn" class="login-btn">CONTINUE TO COURSE →</button>
+      <div id="resumeNote" class="resume-note"></div>
+      <p class="login-note">Your progress is saved automatically in this browser. You can also export a backup from My Journey.</p>
+    </div>
+  </div>
+</section>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <header class="app-header">
+    <div class="app-logo">underdogs<span>.</span></div>
+
+    <nav class="nav">
+      <button class="nav-btn active" data-page="course">COURSE</button>
+      <button class="nav-btn" data-page="journey">MY JOURNEY</button>
+      <button class="nav-btn" data-page="about">ABOUT</button>
+    </nav>
+
+    <div class="user-area">
+      <div class="user-copy"><b id="userName"></b><small>ACT-PRENEUR LEARNER</small></div>
+      <div id="userAvatar" class="user-avatar"></div>
+      <button id="logoutBtn" class="logout">SWITCH USER</button>
+    </div>
+  </header>
+
+  <!-- COURSE PAGE -->
+  <section id="coursePage">
+    <div class="course-layout">
+      <aside class="sidebar">
+        <div class="side-eyebrow">STARTUP JOURNEY · 10 SESSIONS</div>
+        <h2 class="side-title">From idea<br>to evidence.</h2>
+
+        <div class="progress-panel">
+          <div class="progress-line"><span>YOUR PROGRESS</span><span id="sideProgressText">0 / 10</span></div>
+          <div class="progress-track"><div id="sideProgressFill" class="progress-fill"></div></div>
+        </div>
+
+        <div class="side-label">COURSE SESSIONS</div>
+        <div id="lessonNav"><button class="lesson-link active" data-index="0">
+      <span class="ln-num">01</span>
+      <span class="ln-copy"><b>Defining the Problem</b><small>DISCOVER</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="1">
+      <span class="ln-num">02</span>
+      <span class="ln-copy"><b>Creating a Persona</b><small>DISCOVER</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="2">
+      <span class="ln-num">03</span>
+      <span class="ln-copy"><b>Customer Interviews</b><small>DISCOVER</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="3">
+      <span class="ln-num">04</span>
+      <span class="ln-copy"><b>Solution Core Value</b><small>DESIGN</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="4">
+      <span class="ln-num">05</span>
+      <span class="ln-copy"><b>Benchmarking</b><small>DESIGN</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="5">
+      <span class="ln-num">06</span>
+      <span class="ln-copy"><b>Business Model</b><small>BUILD</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="6">
+      <span class="ln-num">07</span>
+      <span class="ln-copy"><b>Pricing Strategy</b><small>BUILD</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="7">
+      <span class="ln-num">08</span>
+      <span class="ln-copy"><b>Minimum Viable Product</b><small>VALIDATE</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="8">
+      <span class="ln-num">09</span>
+      <span class="ln-copy"><b>Pretotyping &amp; Behavioral Validation</b><small>VALIDATE</small></span>
+      <span class="ln-done">✓</span>
+    </button>
+<button class="lesson-link " data-index="9">
+      <span class="ln-num">10</span>
+      <span class="ln-copy"><b>Planning a Landing Page</b><small>VALIDATE</small></span>
+      <span class="ln-done">✓</span>
+    </button></div>
+      </aside>
+
+      <main class="main">
+        <div class="hero">
+          <div>
+            <div id="counter" class="kicker">SESSION 01 / 10</div>
+            <h1 id="sessionTitle">Defining the Problem</h1>
+            <p id="sessionShort"></p>
+          </div>
+          <div id="phaseCard" class="phase-card">
+            <small>CURRENT PHASE</small>
+            <b id="phaseLabel">DISCOVER</b>
+          </div>
+        </div>
+
+        <div class="video">
+          <iframe id="lessonVideo"
+            referrerpolicy="strict-origin-when-cross-origin"
+            src="https://www.youtube.com/embed/xdCgCubuDqw?rel=0"
+            title="Course lesson video"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+
+        <div class="controls">
+          <div class="control-group">
+            <button id="prevBtn" class="btn">← PREVIOUS</button>
+            <button id="nextBtn" class="btn next">NEXT SESSION →</button>
+          </div>
+          <button id="completeBtn" class="btn complete">MARK SESSION COMPLETE</button>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-main">
+            <div class="section-label">01 · ABOUT THIS SESSION</div>
+            <h2>What this session is about</h2>
+            <p id="aboutText"></p>
+            <ul id="learningList" class="learn-list"></ul>
+          </div>
+
+          <div class="info-side">
+            <div class="section-label">02 · YOUR OUTPUT</div>
+            <h2 id="outputTitle" class="output-title"></h2>
+            <p id="outputDetail"></p>
+            <span class="output-tag">BUILD AS YOU LEARN</span>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+  <!-- MY JOURNEY -->
+  <section id="journeyPage" class="journey-page hidden">
+    <div class="journey-hero">
+      <div class="journey-title">
+        <div class="kicker">YOUR EXECUTION RECORD</div>
+        <h1 id="journeyName"></h1>
+        <p>You are not here to finish ten videos. You are here to leave with ten practical outputs and a clearer, testable business idea.</p>
+      </div>
+      <div class="journey-score">
+        <div class="score-caption">COURSE COMPLETION</div>
+        <div id="journeyPercent" class="score-number">0%</div>
+        <div id="journeyCount" class="score-caption">0 OF 10 SESSIONS COMPLETE</div>
+      </div>
+    </div>
+
+    <div class="next-block">
+      <div class="next-session">
+        <small>NEXT MOVE</small>
+        <div id="nextIndex" class="big-index">01</div>
+        <h2 id="nextTitle">Defining the Problem</h2>
+      </div>
+      <div class="output-summary">
+        <small>WHAT YOU HAVE BUILT</small>
+        <strong id="outputsBuilt">0</strong>
+        <p>practical startup outputs completed so far.</p>
+      </div>
+    </div>
+
+    <div class="phase-progress">
+      <div class="kicker">PHASE PROGRESS</div>
+      <h2>See where you are in the journey.</h2>
+      <div id="phaseRows"></div>
+    </div>
+
+    <div class="output-wall">
+      <div class="kicker">YOUR OUTPUTS</div>
+      <h2>Ten sessions. Ten things you can use.</h2>
+      <div id="outputWall" class="outputs"></div>
+    </div>
+
+    <div class="journey-actions">
+      <button id="continueBtn" class="btn next">CONTINUE LEARNING →</button>
+      <button id="exportBtn" class="btn">EXPORT PROGRESS BACKUP</button>
+      <button id="importBtn" class="btn">RESTORE BACKUP</button>
+      <input id="importFile" type="file" accept=".json,application/json" class="hidden">
+    </div>
+    <div id="backupStatus" class="backup-status">Progress is auto-saved locally and mirrored in IndexedDB.</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="aboutPage" class="about-page hidden">
+    <div class="about-hero">
+      <div class="kicker">ABOUT UNDERDOGS.</div>
+      <h1>For people who turn possibility into execution.</h1>
+      <p>Underdogs works with entrepreneurs from the beginning, using execution-focused education to help turn ideas into sustainable businesses and measurable impact.</p>
+    </div>
+
+    <div class="values">
+      <div class="value"><b>Act.</b><p>You know more after trying. Learning is tied to execution, evidence and iteration.</p></div>
+      <div class="value"><b>Challenge.</b><p>An underdog sees possibility where others see the risk of failure.</p></div>
+      <div class="value"><b>Build.</b><p>Good intentions matter more when they are translated into tangible results.</p></div>
+      <div class="value"><b>Own it.</b><p>Freedom works together with responsibility, deadlines and accountable outcomes.</p></div>
+    </div>
+
+    <div class="ecosystem">
+      <div class="kicker">THE WIDER ECOSYSTEM</div>
+      <h2>Different expertise. One direction: impact through execution.</h2>
+      <p class="ecosystem-intro">Underdogs is part of a wider group of specialist capabilities spanning entrepreneurship education, ESG and impact strategy, social-value measurement, and technology talent development.</p>
+
+      <div class="network-grid">
+        <article class="network-card">
+          <div>
+            <div class="nc-num">01</div>
+            <h3>underdogs.</h3>
+            <p>Execution-focused entrepreneurship education, founder development, AI talent programs and growth support for people building real ventures.</p>
+          </div>
+          <a class="network-link" href="https://www.underdogs.global/" target="_blank" rel="noopener">VISIT UNDERDOGS.GLOBAL ↗</a>
+        </article>
+
+        <article class="network-card">
+          <div>
+            <div class="nc-num">02</div>
+            <h3>UD Impact</h3>
+            <p>A global ESG solutions group bringing together entrepreneurship education, social-value strategy and technology-based education.</p>
+          </div>
+          <a class="network-link" href="https://en.udimpact.ai/" target="_blank" rel="noopener">VISIT UDIMPACT.AI ↗</a>
+        </article>
+
+        <article class="network-card">
+          <div>
+            <div class="nc-num">03</div>
+            <h3>F-Lab</h3>
+            <p>Technology talent development built around 1:1 mentoring, practical project guidance, code review and deeper technical capability.</p>
+          </div>
+          <a class="network-link" href="https://f-lab.kr/" target="_blank" rel="noopener">VISIT F-LAB ↗</a>
+        </article>
+
+        <article class="network-card">
+          <div>
+            <div class="nc-num">04</div>
+            <h3>KSVA</h3>
+            <p>Korea Social Value Assessment helps organizations make impact visible through CSR, ESG, social-impact measurement and strategy.</p>
+          </div>
+          <a class="network-link" href="https://www.ksva.co.kr/" target="_blank" rel="noopener">VISIT KSVA.CO.KR ↗</a>
+        </article>
+      </div>
+
+      <p class="about-source">External links open the organizations' official websites. Brand descriptions are intentionally short and written for this learner interface.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+const sessions = [{"video": "xdCgCubuDqw", "phase": "DISCOVER", "title": "Defining the Problem", "short": "Find a meaningful problem worth solving.", "about": "Entrepreneurship should not begin with building a product. It begins with understanding a problem. This session helps you identify a specific problem, understand who is affected, why it matters, how serious it is, and why this is the right time to solve it.", "key": ["Start with a problem worth solving, not just an exciting idea.", "Understand who experiences the problem and why it matters.", "Assess seriousness, relevance and timing before building."], "output": "Problem Statement", "detail": "Who has the problem + What the problem is + Why it matters"}, {"video": "JlLBqcuZaak", "phase": "DISCOVER", "title": "Creating a Persona", "short": "Understand exactly who experiences the problem.", "about": "Once the problem is clear, identify who actually experiences it. Build a specific customer persona by looking at background, situation, goals, frustrations, behaviours and current alternatives.", "key": ["Move beyond broad labels like students or working professionals.", "Describe the primary customer or beneficiary in a specific way.", "Treat the first persona as a hypothesis that must be tested."], "output": "Customer Persona", "detail": "Background + Situation + Goals + Pain points + Behaviours + Current alternatives"}, {"video": "xQsLj0UMvnE", "phase": "DISCOVER", "title": "Customer Interviews", "short": "Replace assumptions with evidence.", "about": "A persona is based on assumptions. Customer interviews test those assumptions against reality. The objective is not to convince customers that your idea is good. The objective is to learn from real experiences and behaviour.", "key": ["Ask open-ended questions about real past behaviour.", "Avoid leading questions and do not sell during the interview.", "Look for repeated patterns across multiple conversations."], "output": "Customer Interview Findings", "detail": "Quotes + Frustrations + Current solutions + Behaviour patterns + Validated or rejected assumptions"}, {"video": "L5CSNnFRctQ", "phase": "DESIGN", "title": "Solution Core Value", "short": "Identify what customers genuinely need.", "about": "Once the problem and customer are understood, ask what value will make the customer genuinely care about the solution. The goal is not to brainstorm more features. It is to identify the core value the customer needs.", "key": ["Analyse what customers currently use and why.", "Identify dissatisfaction, unmet needs and unresolved gaps.", "Prioritise value before features."], "output": "Solution Core Value Statement", "detail": "Customer Problem → Desired Value → Proposed Solution"}, {"video": "8jlR6V2IsbM", "phase": "DESIGN", "title": "Benchmarking", "short": "Understand alternatives and find your opportunity.", "about": "Benchmarking helps you understand what already exists before committing to a solution. Look at direct competitors, indirect alternatives, market expectations and gaps, then compare possibilities using impact and feasibility.", "key": ["Study direct competitors and indirect alternatives.", "Understand strengths, weaknesses and market gaps.", "Prioritise solutions based on impact and feasibility."], "output": "Benchmarking Analysis", "detail": "Competitors + Alternatives + Strengths + Weaknesses + Market gaps + Differentiation"}, {"video": "rET7-hW8_sw", "phase": "BUILD", "title": "Business Model", "short": "Decide how value becomes a sustainable business.", "about": "A strong solution is not automatically a strong business. This session helps you understand how the business creates value, delivers that value and earns money sustainably.", "key": ["Clarify who the customer is, who pays and what they pay for.", "Identify channels, resources, partners and major costs.", "Connect value creation, delivery and revenue."], "output": "Initial Business Model", "detail": "Customer + Value + Delivery + Revenue + Costs"}, {"video": "-H16uXV-yKo", "phase": "BUILD", "title": "Pricing Strategy", "short": "Turn customer value into sustainable revenue.", "about": "Pricing is not simply deciding how much something should cost. A strong pricing strategy balances customer value, competition and business sustainability.", "key": ["Understand value-based, competitor-based and sustainability-based pricing.", "Use pricing to clarify market position.", "Create an initial pricing hypothesis."], "output": "Initial Pricing Strategy", "detail": "Proposed price + Pricing logic + Competitor reference + Customer value + Sustainability"}, {"video": "Sw1N-cU7I6M", "phase": "VALIDATE", "title": "Minimum Viable Product", "short": "Build the smallest version needed to test the core solution.", "about": "Startups operate under extreme uncertainty, so large investments should not happen before learning whether customers genuinely want the solution. An MVP uses the lowest reasonable investment necessary to test the product's core value and key features.", "key": ["Separate essential from non-essential features.", "Reduce unnecessary investment before validation.", "Design a simple experiment around the core value."], "output": "MVP Plan", "detail": "Core value + Essential feature + What will be tested + Who will test it + Minimum resources"}, {"video": "4KqCBdsquSM", "phase": "VALIDATE", "title": "Pretotyping & Behavioral Validation", "short": "Test what customers actually do before investing heavily.", "about": "Sometimes even an MVP requires too much time or money. Pretotyping helps you test whether customers demonstrate real interest before building something substantial, focusing on behaviour rather than opinions.", "key": ["Prioritise actions over what people say they might do.", "Track behavioural metrics such as clicks, sign-ups or purchase attempts.", "Define success thresholds before running the experiment."], "output": "Pretotyping Experiment", "detail": "Hypothesis + Test + Target audience + Desired behaviour + Success metric + Validation threshold"}, {"video": "p_f97ONaPfk", "phase": "VALIDATE", "title": "Planning a Landing Page", "short": "Turn the idea into a measurable market experiment.", "about": "A landing page is a single web page designed around one specific customer action. It lets you communicate the problem, solution and value proposition clearly while measuring whether visitors take the action you want.", "key": ["Define one primary call-to-action.", "Communicate what the offer is, who it is for and why it matters.", "Track measurable behaviour such as clicks, sign-ups and conversion rate."], "output": "Landing Page Plan", "detail": "Headline + Customer problem + Solution + Value proposition + Benefits + Evidence + CTA + Validation metric"}];
+const knownLearners = ["Akash Gupta", "Akash Nagar", "Alshiffa Saifi", "Ankit Gosh", "Ashta Jain", "Avika Sharama", "Mahima Nagpal", "Mohit Jain", "Priya Pandey", "Shrishti Saxena", "Umang Goyal", "Priyanka", "Deep Chakraborty", "Rupinder Singh"];
+
+const PHASE_COLORS = {
+  DISCOVER:'#478cff',
+  DESIGN:'#ff87bc',
+  BUILD:'#ffd529',
+  VALIDATE:'#9ee66f'
+};
+
+let state = {
+  version: 2,
+  users: {},
+  customNames: [],
+  lastUser: null
+};
+let activeUser = null;
+let currentSession = 0;
+let db = null;
+
+function slug(name) {
+  return name.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function initials(name) {
+  return name.split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+}
+function emptyUser() {
+  return {completed:Array(10).fill(false), lastSession:0, joinedAt:new Date().toISOString(), updatedAt:new Date().toISOString()};
+}
+function normaliseUser(user) {
+  if(!user) user=emptyUser();
+  if(!Array.isArray(user.completed)) user.completed=Array(10).fill(false);
+  user.completed=[...user.completed.slice(0,10), ...Array(Math.max(0,10-user.completed.length)).fill(false)];
+  if(typeof user.lastSession!=='number') user.lastSession=0;
+  return user;
+}
+
+function openDatabase() {
+  return new Promise((resolve) => {
+    if(!('indexedDB' in window)) return resolve(null);
+    const req=indexedDB.open('underdogs_learning',1);
+    req.onupgradeneeded=()=>{
+      const d=req.result;
+      if(!d.objectStoreNames.contains('state')) d.createObjectStore('state');
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>resolve(null);
+  });
+}
+function dbRead() {
+  return new Promise((resolve)=>{
+    if(!db) return resolve(null);
+    const tx=db.transaction('state','readonly');
+    const req=tx.objectStore('state').get('main');
+    req.onsuccess=()=>resolve(req.result||null);
+    req.onerror=()=>resolve(null);
+  });
+}
+function dbWrite(data) {
+  return new Promise((resolve)=>{
+    if(!db) return resolve();
+    const tx=db.transaction('state','readwrite');
+    tx.objectStore('state').put(data,'main');
+    tx.oncomplete=()=>resolve();
+    tx.onerror=()=>resolve();
+  });
+}
+async function loadState() {
+  const local=localStorage.getItem('underdogsLearningStateV2');
+  let localState=null;
+  try{ if(local) localState=JSON.parse(local); }catch(e){}
+  db=await openDatabase();
+  const indexed=await dbRead();
+
+  if(indexed && localState) {
+    const iTime=indexed.savedAt||0, lTime=localState.savedAt||0;
+    state=iTime>=lTime?indexed:localState;
+  } else if(indexed) state=indexed;
+  else if(localState) state=localState;
+
+  state.version=2;
+  state.users=state.users||{};
+  state.customNames=state.customNames||[];
+}
+async function saveState() {
+  state.savedAt=Date.now();
+  if(activeUser && state.users[activeUser]) state.users[activeUser].updatedAt=new Date().toISOString();
+  localStorage.setItem('underdogsLearningStateV2',JSON.stringify(state));
+  await dbWrite(state);
+}
+
+function migrateLegacy(name) {
+  const user=normaliseUser(state.users[name]||emptyUser());
+  let changed=false;
+  for(let i=0;i<10;i++) {
+    const s=slug(name);
+    const oldKeys=[
+      'ud-lms:'+s+':session:'+i,
+      'ud-startup-journey:'+s+':session:'+i,
+      'ud-lms-lesson-'+i
+    ];
+    if(oldKeys.some(k=>localStorage.getItem(k)==='done' || localStorage.getItem(k)==='completed')) {
+      if(!user.completed[i]){user.completed[i]=true;changed=true;}
+    }
+  }
+  state.users[name]=user;
+  return changed;
+}
+
+function completedCount(name=activeUser) {
+  if(!name || !state.users[name]) return 0;
+  return normaliseUser(state.users[name]).completed.filter(Boolean).length;
+}
+function firstIncomplete(name=activeUser) {
+  const u=normaliseUser(state.users[name]);
+  for(let i=0;i<10;i++) if(!u.completed[i]) return i;
+  return 9;
+}
+
+function populateLoginNames() {
+  const select=document.getElementById('knownLearner');
+  const all=[...knownLearners,...state.customNames].filter((x,i,a)=>a.indexOf(x)===i).sort((a,b)=>a.localeCompare(b));
+  select.innerHTML='<option value="">Choose from the list</option>'+all.map(n=>'<option value="'+n.replace(/"/g,'&quot;')+'">'+n+'</option>').join('');
+  if(state.lastUser && all.includes(state.lastUser)) {
+    select.value=state.lastUser;
+    const done=completedCount(state.lastUser);
+    const note=document.getElementById('resumeNote');
+    note.textContent='Welcome back, '+state.lastUser+'. Your saved progress is '+done+' / 10 sessions.';
+    note.style.display='block';
+  }
+}
+
+async function loginWith(name) {
+  name=(name||'').trim().replace(/\s+/g,' ');
+  if(!name) return;
+  if(!state.users[name]) state.users[name]=emptyUser();
+  state.users[name]=normaliseUser(state.users[name]);
+  if(!knownLearners.includes(name) && !state.customNames.includes(name)) state.customNames.push(name);
+  activeUser=name;
+  state.lastUser=name;
+  migrateLegacy(name);
+  currentSession=state.users[name].lastSession||firstIncomplete(name);
+  await saveState();
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  updateUserUI();
+  refreshCourse();
+  renderSession(currentSession);
+  showPage('course');
+}
+
+document.getElementById('loginBtn').addEventListener('click',()=>{
+  const custom=document.getElementById('newLearner').value.trim();
+  const selected=document.getElementById('knownLearner').value;
+  loginWith(custom || selected);
+});
+document.getElementById('newLearner').addEventListener('keydown',e=>{
+  if(e.key==='Enter') document.getElementById('loginBtn').click();
+});
+document.getElementById('knownLearner').addEventListener('change',()=>{
+  if(document.getElementById('knownLearner').value) document.getElementById('newLearner').value='';
+});
+document.getElementById('newLearner').addEventListener('input',()=>{
+  if(document.getElementById('newLearner').value.trim()) document.getElementById('knownLearner').value='';
+});
+
+function updateUserUI() {
+  document.getElementById('userName').textContent=activeUser;
+  document.getElementById('userAvatar').textContent=initials(activeUser);
+}
+document.getElementById('logoutBtn').addEventListener('click',()=>{
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('loginPage').classList.remove('hidden');
+  populateLoginNames();
+});
+
+const navBtns=[...document.querySelectorAll('.nav-btn')];
+const pageEls={
+  course:document.getElementById('coursePage'),
+  journey:document.getElementById('journeyPage'),
+  about:document.getElementById('aboutPage')
+};
+function showPage(page) {
+  Object.entries(pageEls).forEach(([k,el])=>el.classList.toggle('hidden',k!==page));
+  navBtns.forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  if(page==='journey') renderJourney();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+navBtns.forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+
+function refreshCourse() {
+  const u=normaliseUser(state.users[activeUser]);
+  const done=u.completed.filter(Boolean).length;
+  document.getElementById('sideProgressText').textContent=done+' / 10';
+  document.getElementById('sideProgressFill').style.width=(done*10)+'%';
+  [...document.querySelectorAll('.lesson-link')].forEach((el,i)=>el.classList.toggle('completed',!!u.completed[i]));
+}
+
+function renderSession(i) {
+  if(i<0||i>=10)return;
+  currentSession=i;
+  const s=sessions[i];
+  state.users[activeUser].lastSession=i;
+  saveState();
+
+  [...document.querySelectorAll('.lesson-link')].forEach((el,idx)=>el.classList.toggle('active',idx===i));
+  document.getElementById('counter').textContent='SESSION '+String(i+1).padStart(2,'0')+' / 10';
+  document.getElementById('sessionTitle').textContent=s.title;
+  document.getElementById('sessionShort').textContent=s.short;
+  document.getElementById('phaseLabel').textContent=s.phase;
+  document.getElementById('phaseCard').style.background=PHASE_COLORS[s.phase];
+  document.getElementById('aboutText').textContent=s.about;
+  document.getElementById('outputTitle').textContent=s.output;
+  document.getElementById('outputDetail').textContent=s.detail;
+  document.getElementById('learningList').innerHTML=s.key.map(x=>'<li><span class="arrow">↳</span><span>'+x+'</span></li>').join('');
+  document.getElementById('lessonVideo').src='https://www.youtube.com/embed/'+s.video+'?rel=0';
+
+  const done=!!state.users[activeUser].completed[i];
+  const c=document.getElementById('completeBtn');
+  c.textContent=done?'COMPLETED ✓':'MARK SESSION COMPLETE';
+  c.classList.toggle('done',done);
+  document.getElementById('prevBtn').disabled=i===0;
+  document.getElementById('nextBtn').disabled=i===9;
+}
+[...document.querySelectorAll('.lesson-link')].forEach((el,i)=>el.addEventListener('click',()=>renderSession(i)));
+document.getElementById('prevBtn').addEventListener('click',()=>renderSession(currentSession-1));
+document.getElementById('nextBtn').addEventListener('click',()=>renderSession(currentSession+1));
+document.getElementById('completeBtn').addEventListener('click',async()=>{
+  state.users[activeUser].completed[currentSession]=true;
+  await saveState();
+  refreshCourse();
+  renderSession(currentSession);
+});
+
+function renderJourney() {
+  const u=normaliseUser(state.users[activeUser]);
+  const done=u.completed.filter(Boolean).length;
+  const next=done===10?9:firstIncomplete(activeUser);
+
+  document.getElementById('journeyName').textContent=activeUser;
+  document.getElementById('journeyPercent').textContent=(done*10)+'%';
+  document.getElementById('journeyCount').textContent=done+' OF 10 SESSIONS COMPLETE';
+  document.getElementById('outputsBuilt').textContent=done;
+  document.getElementById('nextIndex').textContent=done===10?'✓':String(next+1).padStart(2,'0');
+  document.getElementById('nextTitle').textContent=done===10?'Course journey complete':sessions[next].title;
+
+  const phaseDefs=[
+    ['DISCOVER',[0,1,2],PHASE_COLORS.DISCOVER],
+    ['DESIGN',[3,4],PHASE_COLORS.DESIGN],
+    ['BUILD',[5,6],PHASE_COLORS.BUILD],
+    ['VALIDATE',[7,8,9],PHASE_COLORS.VALIDATE]
+  ];
+  document.getElementById('phaseRows').innerHTML=phaseDefs.map(([name,idxs,color])=>{
+    const c=idxs.filter(i=>u.completed[i]).length;
+    const pct=Math.round(c/idxs.length*100);
+    return '<div class="phase-row"><div class="phase-name">'+name+'</div><div class="phase-bar"><div style="width:'+pct+'%;background:'+color+'"></div></div><div class="phase-count">'+c+' / '+idxs.length+'</div></div>';
+  }).join('');
+
+  document.getElementById('outputWall').innerHTML=sessions.map((s,i)=>{
+    const d=!!u.completed[i];
+    return '<div class="output-item '+(d?'done':'')+'"><div class="oi-top"><span class="oi-num">SESSION '+String(i+1).padStart(2,'0')+'</span><span class="oi-state">'+(d?'BUILT ✓':'NOT YET')+'</span></div><b>'+s.output+'</b></div>';
+  }).join('');
+}
+
+document.getElementById('continueBtn').addEventListener('click',()=>{
+  currentSession=completedCount()===10?9:firstIncomplete();
+  renderSession(currentSession);
+  showPage('course');
+});
+
+document.getElementById('exportBtn').addEventListener('click',()=>{
+  const payload={
+    exportedAt:new Date().toISOString(),
+    product:'underdogs. learning',
+    state
+  };
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download='underdogs-learning-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  document.getElementById('backupStatus').textContent='Backup exported. Keep this JSON file if you want an extra copy of learner progress.';
+});
+document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
+document.getElementById('importFile').addEventListener('change',async e=>{
+  const f=e.target.files[0];
+  if(!f)return;
+  try {
+    const parsed=JSON.parse(await f.text());
+    const incoming=parsed.state||parsed;
+    if(!incoming.users) throw new Error('Invalid backup');
+    state=incoming;
+    state.version=2;
+    state.users=state.users||{};
+    state.customNames=state.customNames||[];
+    await saveState();
+    if(activeUser && !state.users[activeUser]) state.users[activeUser]=emptyUser();
+    refreshCourse();
+    renderJourney();
+    populateLoginNames();
+    document.getElementById('backupStatus').textContent='Backup restored successfully.';
+  } catch(err) {
+    document.getElementById('backupStatus').textContent='Could not restore this backup file.';
+  }
+  e.target.value='';
+});
+
+(async function init(){
+  await loadState();
+  populateLoginNames();
+  if(window.location.protocol==='file:') document.getElementById('localWarning').style.display='block';
+})();
+</script>
+</body>
+</html>
