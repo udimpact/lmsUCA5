@@ -65,6 +65,30 @@ a{color:inherit}
 .field label{display:block;font-size:11px;font-weight:700;margin-bottom:8px}
 .field select,.field input{width:100%;height:54px;border:1px solid #B8BBB8;background:white;color:var(--ink);padding:0 14px;outline:none;border-radius:0}
 .field select:focus,.field input:focus{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange)}
+.learner-picker{position:relative}
+.learner-picker-btn{
+  width:100%;height:54px;border:1px solid #B8BBB8;background:#fff;color:var(--ink);
+  padding:0 14px;display:flex;align-items:center;justify-content:space-between;text-align:left
+}
+.learner-picker-btn:hover,.learner-picker.open .learner-picker-btn{border-color:var(--orange)}
+.picker-arrow{font-size:18px;transition:.18s transform}
+.learner-picker.open .picker-arrow{transform:rotate(180deg)}
+.learner-menu{
+  position:absolute;left:0;right:0;top:58px;background:#fff;border:1px solid #B8BBB8;
+  box-shadow:0 12px 30px rgba(55,57,56,.14);z-index:300;max-height:330px;overflow:auto
+}
+.learner-menu-title{
+  position:sticky;top:0;background:#F7F7F5;border-bottom:1px solid var(--line);
+  padding:10px 13px;font-size:10px;font-weight:700;color:#8A8D89;text-transform:uppercase
+}
+.learner-menu-items{padding:5px}
+.learner-option{
+  width:100%;border:0;background:#fff;color:var(--ink);padding:11px 10px;text-align:left;
+  font-size:13px;border-bottom:1px solid #EFEDE9
+}
+.learner-option:last-child{border-bottom:0}
+.learner-option:hover,.learner-option:focus{background:#FFF2EB;outline:none;color:var(--orange)}
+
 .login-action{width:100%;margin-top:20px;height:52px}
 .not-found{margin-top:15px;border:0;background:transparent;padding:0;color:var(--orange);font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .new-name-wrap{margin-top:20px;padding-top:20px;border-top:1px solid var(--line)}
@@ -221,6 +245,9 @@ a{color:inherit}
   .login-foot{display:none}
   .login-panel{padding:34px 22px 44px}
   .login-box h2{font-size:34px}
+  .learner-menu{position:fixed;left:16px;right:16px;top:50%;max-height:60vh;transform:translateY(-50%);z-index:260}
+  .learner-picker.open::before{content:"";position:fixed;inset:0;background:rgba(55,57,56,.45);z-index:250}
+
 
   .app-header{height:auto;min-height:70px;padding:13px 15px;gap:10px;flex-wrap:wrap}
   .app-brand .divider,.app-brand .course-name,.user-copy,.switch-user{display:none}
@@ -298,8 +325,32 @@ a{color:inherit}
       <p class="intro">Select your name to open your learning record. If your name is not listed, you can create it in one step.</p>
 
       <div class="field">
-        <label for="knownLearner">Your name</label>
-        <select id="knownLearner"></select>
+        <label>Your name</label>
+        <div id="learnerPicker" class="learner-picker">
+          <button id="learnerPickerBtn" class="learner-picker-btn" type="button" aria-expanded="false">
+            <span id="learnerPickerText">Select your name</span>
+            <span class="picker-arrow">⌄</span>
+          </button>
+          <div id="learnerMenu" class="learner-menu hidden">
+            <div class="learner-menu-title">Select your name</div>
+            <div id="learnerMenuItems" class="learner-menu-items">
+              <button class="learner-option" type="button" data-name="Akash Gupta">Akash Gupta</button>
+<button class="learner-option" type="button" data-name="Akash Nagar">Akash Nagar</button>
+<button class="learner-option" type="button" data-name="Alshiffa Saifi">Alshiffa Saifi</button>
+<button class="learner-option" type="button" data-name="Ankit Gosh">Ankit Gosh</button>
+<button class="learner-option" type="button" data-name="Ashta Jain">Ashta Jain</button>
+<button class="learner-option" type="button" data-name="Avika Sharama">Avika Sharama</button>
+<button class="learner-option" type="button" data-name="Mahima Nagpal">Mahima Nagpal</button>
+<button class="learner-option" type="button" data-name="Mohit Jain">Mohit Jain</button>
+<button class="learner-option" type="button" data-name="Priya Pandey">Priya Pandey</button>
+<button class="learner-option" type="button" data-name="Shrishti Saxena">Shrishti Saxena</button>
+<button class="learner-option" type="button" data-name="Umang Goyal">Umang Goyal</button>
+<button class="learner-option" type="button" data-name="Priyanka">Priyanka</button>
+<button class="learner-option" type="button" data-name="Deep Chakraborty">Deep Chakraborty</button>
+<button class="learner-option" type="button" data-name="Rupinder Singh">Rupinder Singh</button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <button id="notFoundBtn" class="not-found" type="button">Can't find your name?</button>
@@ -729,20 +780,72 @@ async function saveState() {
   await writeDb(state);
 }
 
-function populateLearners() {
-  const select = document.getElementById('knownLearner');
-  const all = [...knownLearners, ...state.customNames].filter((x,i,a)=>a.indexOf(x)===i).sort((a,b)=>a.localeCompare(b));
-  select.innerHTML = '<option value="">Select your name</option>' + all.map(n=>'<option value="'+n.replace(/"/g,'&quot;')+'">'+n+'</option>').join('');
+let selectedLoginName = '';
+
+function allLearnerNames() {
+  return [...knownLearners, ...state.customNames]
+    .filter((x,i,a)=>a.indexOf(x)===i)
+    .sort((a,b)=>a.localeCompare(b));
+}
+
+function closeLearnerMenu() {
+  document.getElementById('learnerPicker').classList.remove('open');
+  document.getElementById('learnerMenu').classList.add('hidden');
+  document.getElementById('learnerPickerBtn').setAttribute('aria-expanded','false');
+}
+
+function openLearnerMenu() {
+  document.getElementById('learnerPicker').classList.add('open');
+  document.getElementById('learnerMenu').classList.remove('hidden');
+  document.getElementById('learnerPickerBtn').setAttribute('aria-expanded','true');
+}
+
+function renderLearnerMenu() {
+  const container = document.getElementById('learnerMenuItems');
+  const all = allLearnerNames();
+
+  container.innerHTML = all.map(n =>
+    '<button class="learner-option" type="button" data-name="' +
+    n.replace(/"/g,'&quot;') + '">' + n + '</button>'
+  ).join('');
+
+  container.querySelectorAll('.learner-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      selectedLoginName = btn.dataset.name;
+      document.getElementById('learnerPickerText').textContent = selectedLoginName;
+      closeLearnerMenu();
+
+      const done = countDone(selectedLoginName);
+      const box = document.getElementById('resumeBox');
+      box.textContent = done > 0
+        ? 'Welcome back, ' + selectedLoginName + '. Your saved progress is ' + done + ' / 10 lessons.'
+        : selectedLoginName + ' is ready to start the course.';
+      box.style.display = 'block';
+    });
+  });
 
   if(state.lastUser && all.includes(state.lastUser)) {
-    select.value = state.lastUser;
+    selectedLoginName = state.lastUser;
+    document.getElementById('learnerPickerText').textContent = state.lastUser;
+    const done = countDone(state.lastUser);
     const box = document.getElementById('resumeBox');
-    box.textContent = 'Welcome back, ' + state.lastUser + '. Your saved progress is ' + countDone(state.lastUser) + ' / 10 lessons.';
+    box.textContent = 'Welcome back, ' + state.lastUser + '. Your saved progress is ' + done + ' / 10 lessons.';
     box.style.display = 'block';
   }
 }
 
+document.getElementById('learnerPickerBtn').addEventListener('click', e => {
+  e.stopPropagation();
+  const isOpen = document.getElementById('learnerPicker').classList.contains('open');
+  isOpen ? closeLearnerMenu() : openLearnerMenu();
+});
+
+document.addEventListener('click', e => {
+  if(!document.getElementById('learnerPicker').contains(e.target)) closeLearnerMenu();
+});
+
 function showNewName() {
+  closeLearnerMenu();
   document.getElementById('newNameWrap').classList.remove('hidden');
   document.getElementById('notFoundBtn').classList.add('hidden');
   document.getElementById('newLearner').focus();
@@ -757,17 +860,22 @@ document.getElementById('cancelNewName').addEventListener('click', hideNewName);
 
 async function loginAs(name) {
   name = (name || '').trim().replace(/\s+/g,' ');
-  if(!name) return;
+  if(!name) {
+    openLearnerMenu();
+    return;
+  }
 
   if(!state.users[name]) state.users[name] = emptyUser();
   state.users[name] = normaliseUser(state.users[name]);
   if(!knownLearners.includes(name) && !state.customNames.includes(name)) state.customNames.push(name);
 
   activeUser = name;
+  selectedLoginName = name;
   state.lastUser = name;
   currentSession = state.users[name].lastSession || firstIncomplete(name);
   await saveState();
 
+  renderLearnerMenu();
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
 
@@ -778,7 +886,8 @@ async function loginAs(name) {
   renderLesson(currentSession);
   showPage('course');
 }
-document.getElementById('loginBtn').addEventListener('click',()=>loginAs(document.getElementById('knownLearner').value));
+
+document.getElementById('loginBtn').addEventListener('click',()=>loginAs(selectedLoginName));
 document.getElementById('createLearner').addEventListener('click',()=>loginAs(document.getElementById('newLearner').value));
 document.getElementById('newLearner').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('createLearner').click(); });
 
@@ -786,7 +895,7 @@ document.getElementById('switchUser').addEventListener('click',()=>{
   document.getElementById('app').classList.add('hidden');
   document.getElementById('loginPage').classList.remove('hidden');
   hideNewName();
-  populateLearners();
+  renderLearnerMenu();
 });
 
 /* navigation */
@@ -940,7 +1049,7 @@ document.getElementById('importFile').addEventListener('change',async e=>{
     state.customNames=state.customNames||[];
     if(activeUser && !state.users[activeUser]) state.users[activeUser]=emptyUser();
     await saveState();
-    populateLearners();
+    renderLearnerMenu();
     refreshCourseUI();
     renderJourney();
     document.getElementById('backupStatus').innerHTML='<span class="save-pill"><span class="save-dot"></span>Backup restored successfully</span>';
@@ -952,7 +1061,7 @@ document.getElementById('importFile').addEventListener('change',async e=>{
 
 (async function init(){
   await loadState();
-  populateLearners();
+  renderLearnerMenu();
   if(window.location.protocol==='file:') document.getElementById('localWarning').style.display='block';
 })();
 </script>
