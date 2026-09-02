@@ -14,7 +14,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --ink:#373938;
+  --ink:#111111;
   --orange:#F05519;
   --peach:#FBD4C5;
   --white:#ffffff;
@@ -30,6 +30,213 @@ button,input,select{font:inherit}
 button{cursor:pointer}
 a{color:inherit}
 .hidden{display:none!important}
+
+.theme-toggle{
+  min-width:76px;
+  height:38px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:#111;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:0 12px;
+  font-size:10px;
+  font-weight:700;
+  border-radius:999px;
+  white-space:nowrap;
+}
+.theme-toggle:hover{border-color:var(--orange);color:var(--orange)}
+.theme-toggle svg{flex:0 0 auto}
+.login-topbar{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  margin:0 0 26px;
+}
+.login-topbar .eyebrow{
+  margin:0;
+  flex:1 1 auto;
+}
+.login-theme-toggle{
+  position:static!important;
+  flex:0 0 auto;
+  margin:0!important;
+}
+.login-theme-toggle{
+  position:static;
+  flex:0 0 auto;
+}
+.login-box{position:relative}
+
+body[data-theme="dark"]{
+  --paper:#080808;
+  --white:#111111;
+  --line:#2B2B2B;
+  --soft:#191919;
+  --muted:#B8BAB7;
+  background:#080808;
+  color:#F4F4F2;
+}
+body[data-theme="dark"] .login-panel,
+body[data-theme="dark"] .app-header,
+body[data-theme="dark"] .sidebar,
+body[data-theme="dark"] .module-head,
+body[data-theme="dark"] .lesson-link,
+body[data-theme="dark"] .course-outline-toggle,
+body[data-theme="dark"] .next-card,
+body[data-theme="dark"] .built-card,
+body[data-theme="dark"] .phase-card,
+body[data-theme="dark"] .output-item,
+body[data-theme="dark"] .about-hero,
+body[data-theme="dark"] .about-value,
+body[data-theme="dark"] .network-card{
+  background:#111;
+  color:#F4F4F2;
+}
+body[data-theme="dark"] .modules-wrap,
+body[data-theme="dark"] .module-lessons,
+body[data-theme="dark"] .lesson-link:hover,
+body[data-theme="dark"] .lesson-link.active{
+  background:#171717;
+}
+body[data-theme="dark"] .field input,
+body[data-theme="dark"] .field select,
+body[data-theme="dark"] .learner-picker-btn,
+body[data-theme="dark"] .theme-toggle{
+  background:#111;
+  color:#F4F4F2;
+  border-color:#3A3A3A;
+}
+body[data-theme="dark"] .learner-dialog{
+  background:#111;
+  color:#F4F4F2;
+}
+body[data-theme="dark"] .modal-close,
+body[data-theme="dark"] .learner-search-wrap,
+body[data-theme="dark"] .learner-option{
+  background:#111;
+  color:#F4F4F2;
+  border-color:#2F2F2F;
+}
+body[data-theme="dark"] .learner-search-wrap input{color:#F4F4F2}
+body[data-theme="dark"] .learner-option:hover,
+body[data-theme="dark"] .learner-option:focus{
+  background:#1D1D1D;
+  color:var(--orange);
+}
+body[data-theme="dark"] .lesson-info p,
+body[data-theme="dark"] .lesson-head p,
+body[data-theme="dark"] .next-card p,
+body[data-theme="dark"] .network-card p,
+body[data-theme="dark"] .about-hero p,
+body[data-theme="dark"] .about-value p,
+body[data-theme="dark"] .network-intro,
+body[data-theme="dark"] .pc-copy,
+body[data-theme="dark"] .output-item-top{
+  color:#B8BAB7;
+}
+body[data-theme="dark"] .lesson-status{
+  border-color:#555;
+  color:#BBB;
+}
+body[data-theme="dark"] .journey-hero,
+body[data-theme="dark"] .login-visual,
+body[data-theme="dark"] .btn.dark,
+body[data-theme="dark"] .user-avatar,
+body[data-theme="dark"] .lesson-link.completed .lesson-status{
+  background:#000;
+  color:#fff;
+}
+body[data-theme="dark"] .output-note,
+body[data-theme="dark"] .resume-box{
+  background:#21140F;
+  color:#E9D7CF;
+}
+body[data-theme="dark"] .progress-track,
+body[data-theme="dark"] .phase-mini-track{
+  background:#292929;
+}
+
+body[data-theme="dark"] .course-main,
+body[data-theme="dark"] .journey-page,
+body[data-theme="dark"] .about-page{
+  background:#080808;
+}
+body[data-theme="dark"] .sidebar-top,
+body[data-theme="dark"] .lesson-info,
+body[data-theme="dark"] .phase-journey,
+body[data-theme="dark"] .outputs-section,
+body[data-theme="dark"] .network{
+  color:#F4F4F2;
+}
+body[data-theme="dark"] .lesson-link.active{
+  box-shadow:inset 3px 0 0 var(--orange);
+}
+body[data-theme="dark"] .phase-chip{
+  background:#000;
+  color:var(--orange);
+  border-color:var(--orange);
+}
+body[data-theme="dark"] .btn{
+  border-color:#454545;
+  color:#F4F4F2;
+}
+body[data-theme="dark"] .btn:hover{
+  background:#fff;
+  color:#000;
+}
+body[data-theme="dark"] .btn.primary{
+  background:var(--orange);
+  border-color:var(--orange);
+  color:#fff;
+}
+body[data-theme="dark"] .btn.dark{
+  background:#000;
+  border-color:#000;
+  color:#fff;
+}
+body[data-theme="dark"] .next-card,
+body[data-theme="dark"] .built-card,
+body[data-theme="dark"] .phase-card,
+body[data-theme="dark"] .output-item,
+body[data-theme="dark"] .about-hero,
+body[data-theme="dark"] .about-value,
+body[data-theme="dark"] .network-card{
+  background:#111;
+}
+body[data-theme="dark"] .phase-card.active{
+  box-shadow:inset 0 4px 0 var(--orange);
+}
+body[data-theme="dark"] .learner-dialog-head{
+  border-color:#2B2B2B;
+}
+body[data-theme="dark"] .modal-not-found{
+  background:#000;
+  color:#fff;
+}
+body[data-theme="dark"] .modal-not-found:hover{
+  background:var(--orange);
+}
+body[data-theme="dark"] .login-note,
+body[data-theme="dark"] .backup-status,
+body[data-theme="dark"] .save-pill,
+body[data-theme="dark"] .lesson-copy small,
+body[data-theme="dark"] .module-head small,
+body[data-theme="dark"] .user-copy small{
+  color:#A9ACA9;
+}
+body[data-theme="dark"] .app-brand .course-name,
+body[data-theme="dark"] .nav button{
+  color:#A9ACA9;
+}
+body[data-theme="dark"] .nav button.active{
+  color:#fff;
+}
+
 .local-warning{display:none;background:#FFF4E8;color:#68452E;border-bottom:1px solid #E8C7AB;padding:9px 16px;text-align:center;font-size:12px}
 
 /* ---------- shared brand ---------- */
@@ -50,9 +257,18 @@ a{color:inherit}
 /* ---------- login ---------- */
 .login-page{min-height:100vh;background:white;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(420px,.9fr)}
 .login-visual{background:var(--ink);color:white;padding:58px 5.5vw;display:flex;flex-direction:column;justify-content:space-between;min-height:100vh;position:relative;overflow:hidden}
-.login-visual::after{content:"";position:absolute;width:360px;height:360px;border:78px solid var(--orange);border-radius:50%;right:-155px;bottom:-155px;opacity:.96}
+.login-visual::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  width:14px;
+  background:var(--orange);
+  pointer-events:none;
+}
 .login-logo{position:relative;z-index:2}
-.login-copy{position:relative;z-index:2;max-width:760px}
+.login-copy{position:relative;z-index:2;max-width:760px;padding-right:48px}
 .login-copy h1{font-size:clamp(52px,6.7vw,100px);line-height:.94;letter-spacing:-.055em;margin:16px 0 28px;font-weight:600}
 .login-copy h1 span{color:var(--orange)}
 .login-copy p{max-width:610px;color:#D0D2D0;font-size:16px;line-height:1.65;margin:0}
@@ -60,7 +276,7 @@ a{color:inherit}
 
 .login-panel{display:flex;align-items:center;padding:58px 7vw;background:var(--white)}
 .login-box{width:100%;max-width:480px;margin:auto}
-.login-box h2{font-size:42px;line-height:1.08;letter-spacing:-.035em;margin:12px 0 12px;font-weight:600}
+.login-box h2{font-size:42px;line-height:1.08;letter-spacing:-.035em;margin:0 0 14px;font-weight:600}
 .login-box .intro{font-size:14px;line-height:1.7;color:var(--muted);margin:0 0 30px}
 .field label{display:block;font-size:11px;font-weight:700;margin-bottom:8px}
 .field select,.field input{width:100%;height:54px;border:1px solid #B8BBB8;background:white;color:var(--ink);padding:0 14px;outline:none;border-radius:0}
@@ -73,27 +289,101 @@ a{color:inherit}
 .learner-picker-btn:hover,.learner-picker.open .learner-picker-btn{border-color:var(--orange)}
 .picker-arrow{font-size:18px;transition:.18s transform}
 .learner-picker.open .picker-arrow{transform:rotate(180deg)}
-.learner-menu{
+
+
+.learner-modal{
   position:fixed;
-  background:#fff;
-  border:1px solid #B8BBB8;
-  box-shadow:0 18px 45px rgba(55,57,56,.18);
+  inset:0;
   z-index:99999;
-  max-height:min(330px,calc(100vh - 32px));
+  background:rgba(0,0,0,.58);
+  display:grid;
+  place-items:center;
+  padding:20px;
+}
+.learner-dialog{
+  width:min(520px,100%);
+  max-height:min(720px,88vh);
+  background:#fff;
+  color:#111;
+  border-top:4px solid var(--orange);
+  box-shadow:0 24px 70px rgba(0,0,0,.28);
+  display:flex;
+  flex-direction:column;
+}
+.learner-dialog-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:20px;
+  padding:24px 24px 17px;
+  border-bottom:1px solid var(--line);
+}
+.learner-dialog-head h3{
+  font-size:27px;
+  line-height:1.1;
+  margin:7px 0 0;
+  font-weight:600;
+  letter-spacing:-.03em;
+}
+.modal-close{
+  width:38px;
+  height:38px;
+  border:1px solid var(--line);
+  background:#fff;
+  color:#111;
+  font-size:25px;
+  line-height:1;
+}
+.learner-search-wrap{
+  margin:17px 20px 10px;
+  height:48px;
+  border:1px solid #B8BBB8;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:0 13px;
+  background:#fff;
+}
+.learner-search-wrap:focus-within{border-color:var(--orange)}
+.search-icon{flex:0 0 auto;color:#8A8D89}
+.learner-search-wrap input{
+  width:100%;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#111;
+  font-size:13px;
+}
+.learner-modal-list{
   overflow:auto;
-  overscroll-behavior:contain
+  padding:0 20px 8px;
+  overscroll-behavior:contain;
 }
-.learner-menu-title{
-  position:sticky;top:0;background:#F7F7F5;border-bottom:1px solid var(--line);
-  padding:10px 13px;font-size:10px;font-weight:700;color:#8A8D89;text-transform:uppercase
-}
-.learner-menu-items{padding:5px}
 .learner-option{
-  width:100%;border:0;background:#fff;color:var(--ink);padding:11px 10px;text-align:left;
-  font-size:13px;border-bottom:1px solid #EFEDE9
+  width:100%;
+  border:0;
+  border-bottom:1px solid #EEECE8;
+  background:#fff;
+  color:#111;
+  padding:13px 8px;
+  text-align:left;
+  font-size:13px;
 }
-.learner-option:last-child{border-bottom:0}
-.learner-option:hover,.learner-option:focus{background:#FFF2EB;outline:none;color:var(--orange)}
+.learner-option:hover,.learner-option:focus{
+  background:#FFF2EB;
+  color:var(--orange);
+  outline:none;
+}
+.modal-not-found{
+  margin:10px 20px 20px;
+  border:0;
+  background:#111;
+  color:#fff;
+  padding:13px 14px;
+  font-size:12px;
+  font-weight:700;
+}
+.modal-not-found:hover{background:var(--orange)}
 
 .login-action{width:100%;margin-top:20px;height:52px}
 .not-found{margin-top:15px;border:0;background:transparent;padding:0;color:var(--orange);font-size:12px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
@@ -113,6 +403,7 @@ a{color:inherit}
 .nav button.active{color:var(--ink)}
 .nav button.active::after{content:"";position:absolute;height:2px;background:var(--orange);left:0;right:0;bottom:0}
 .user-area{display:flex;align-items:center;gap:11px}
+.user-area .theme-toggle{margin:0 4px 0 0}
 .user-copy{text-align:right}
 .user-copy b{display:block;font-size:12px}
 .user-copy small{font-size:10px;color:#999}
@@ -245,28 +536,43 @@ a{color:inherit}
 }
 @media(max-width:760px){
   .local-warning{font-size:10px}
-  .login-visual{min-height:43vh;padding:27px 22px}
+  .login-visual{min-height:41vh;padding:26px 22px 32px}
+  .login-visual::after{
+    top:0;
+    right:0;
+    bottom:0;
+    width:8px;
+    height:auto;
+    border:0;
+    background:var(--orange);
+    transform:none;
+    opacity:1;
+  }
+  .login-copy{
+    position:relative;
+    z-index:4;
+    padding-right:0;
+  }
+  .login-copy h1 span{
+    position:relative;
+    z-index:5;
+  }
+
   .login-copy h1{font-size:49px}
   .login-copy p{font-size:13px}
   .login-foot{display:none}
   .login-panel{padding:34px 22px 44px}
-  .login-box h2{font-size:34px}
-  .learner-menu{
-    left:16px!important;
-    right:16px!important;
-    width:auto!important;
-    top:50%!important;
-    transform:translateY(-50%);
-    max-height:70vh
-  }
-  .learner-picker.open::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    background:rgba(55,57,56,.45);
-    z-index:99990
+  .login-box h2{font-size:34px;line-height:1.12;margin:0 0 13px}
+  .login-box .intro{font-size:13px;line-height:1.65}
+  .login-topbar .eyebrow{margin:0}
+  .login-theme-toggle{
+    min-width:68px;
+    height:34px;
+    padding:0 10px;
+    position:static!important;
   }
 
+    
 
   .app-header{height:auto;min-height:70px;padding:13px 15px;gap:10px;flex-wrap:wrap}
   .app-brand .divider,.app-brand .course-name,.user-copy,.switch-user{display:none}
@@ -339,36 +645,25 @@ a{color:inherit}
 
   <div class="login-panel">
     <div class="login-box">
-      <div class="eyebrow">WELCOME</div>
+      <div class="login-topbar">
+        <div class="eyebrow">WELCOME</div>
+        <button id="loginThemeToggle" class="theme-toggle login-theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="theme-moon" width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5 8.6 8.6 0 1 0 20.5 14.6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          </svg>
+          <span class="theme-label">Dark</span>
+        </button>
+      </div>
       <h2>Continue your journey.</h2>
       <p class="intro">Select your name to open your learning record. If your name is not listed, you can create it in one step.</p>
 
       <div class="field">
         <label>Your name</label>
         <div id="learnerPicker" class="learner-picker">
-          <button id="learnerPickerBtn" class="learner-picker-btn" type="button" aria-expanded="false">
+          <button id="learnerPickerBtn" class="learner-picker-btn" type="button" aria-haspopup="dialog">
             <span id="learnerPickerText">Select your name</span>
             <span class="picker-arrow">⌄</span>
           </button>
-          <div id="learnerMenu" class="learner-menu hidden">
-            <div class="learner-menu-title">Select your name</div>
-            <div id="learnerMenuItems" class="learner-menu-items">
-              <button class="learner-option" type="button" data-name="Akash Gupta">Akash Gupta</button>
-<button class="learner-option" type="button" data-name="Akash Nagar">Akash Nagar</button>
-<button class="learner-option" type="button" data-name="Alshiffa Saifi">Alshiffa Saifi</button>
-<button class="learner-option" type="button" data-name="Ankit Gosh">Ankit Gosh</button>
-<button class="learner-option" type="button" data-name="Ashta Jain">Ashta Jain</button>
-<button class="learner-option" type="button" data-name="Avika Sharama">Avika Sharama</button>
-<button class="learner-option" type="button" data-name="Mahima Nagpal">Mahima Nagpal</button>
-<button class="learner-option" type="button" data-name="Mohit Jain">Mohit Jain</button>
-<button class="learner-option" type="button" data-name="Priya Pandey">Priya Pandey</button>
-<button class="learner-option" type="button" data-name="Shrishti Saxena">Shrishti Saxena</button>
-<button class="learner-option" type="button" data-name="Umang Goyal">Umang Goyal</button>
-<button class="learner-option" type="button" data-name="Priyanka">Priyanka</button>
-<button class="learner-option" type="button" data-name="Deep Chakraborty">Deep Chakraborty</button>
-<button class="learner-option" type="button" data-name="Rupinder Singh">Rupinder Singh</button>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -390,7 +685,32 @@ a{color:inherit}
       <p class="login-note">Your progress is saved automatically in this browser and mirrored in IndexedDB. You can also export a backup from My Journey.</p>
     </div>
   </div>
+
 </section>
+
+<div id="learnerModal" class="learner-modal hidden" role="dialog" aria-modal="true" aria-labelledby="learnerModalTitle">
+  <div class="learner-dialog">
+    <div class="learner-dialog-head">
+      <div>
+        <div class="eyebrow">LEARNER LOGIN</div>
+        <h3 id="learnerModalTitle">Select your name</h3>
+      </div>
+      <button id="closeLearnerModal" class="modal-close" type="button" aria-label="Close">×</button>
+    </div>
+
+    <div class="learner-search-wrap">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+        <path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <input id="learnerSearch" type="search" placeholder="Search your name" autocomplete="off">
+    </div>
+
+    <div id="learnerMenuItems" class="learner-modal-list"></div>
+
+    <button id="modalNotFound" class="modal-not-found" type="button">My name is not in the list</button>
+  </div>
+</div>
 
 <!-- APP -->
 <div id="app" class="hidden">
@@ -409,9 +729,17 @@ a{color:inherit}
     </nav>
 
     <div class="user-area">
+
+      <button id="appThemeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="theme-icon-svg" width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5 8.6 8.6 0 1 0 20.5 14.6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+        <span class="theme-label">Dark</span>
+      </button>
+
       <div class="user-copy"><b id="userName"></b><small>learner</small></div>
       <div id="userAvatar" class="user-avatar"></div>
-      <button id="switchUser" class="switch-user" type="button">Switch</button>
+      <button id="switchUser" class="switch-user" type="button">Logout</button>
     </div>
   </header>
 
@@ -657,8 +985,10 @@ a{color:inherit}
 
     <div class="journey-actions">
       <button id="continueBtn" class="btn primary" type="button">Continue learning →</button>
-      <button id="exportBtn" class="btn" type="button">Export progress backup</button>
+      <button id="exportBtn" class="btn" type="button">Export backup</button>
+      <button id="exportGithubBtn" class="btn" type="button">Export progress.json</button>
       <button id="importBtn" class="btn" type="button">Restore backup</button>
+      <button id="journeyLogoutBtn" class="btn dark" type="button">Logout</button>
       <input id="importFile" class="hidden" type="file" accept=".json,application/json">
     </div>
     <div id="backupStatus" class="backup-status"><span class="save-pill"><span class="save-dot"></span>Progress auto-saved on this device</span></div>
@@ -708,7 +1038,7 @@ a{color:inherit}
 
 <script>
 const sessions = [{"video": "xdCgCubuDqw", "phase": "Discover", "phaseKey": "discover", "title": "Defining the Problem", "short": "Find a meaningful problem worth solving.", "about": "Entrepreneurship should not begin with building a product. It begins with understanding a problem. This session helps you identify a specific problem, understand who is affected, why it matters, how serious it is, and why this is the right time to solve it.", "key": ["Start with a problem worth solving, not just an exciting idea.", "Understand who experiences the problem and why it matters.", "Assess seriousness, relevance and timing before building."], "output": "Problem Statement", "detail": "Who has the problem + What the problem is + Why it matters"}, {"video": "JlLBqcuZaak", "phase": "Discover", "phaseKey": "discover", "title": "Creating a Persona", "short": "Understand exactly who experiences the problem.", "about": "Once the problem is clear, identify who actually experiences it. Build a specific customer persona by looking at background, situation, goals, frustrations, behaviours and current alternatives.", "key": ["Move beyond broad labels like students or working professionals.", "Describe the primary customer or beneficiary in a specific way.", "Treat the first persona as a hypothesis that must be tested."], "output": "Customer Persona", "detail": "Background + Situation + Goals + Pain points + Behaviours + Current alternatives"}, {"video": "xQsLj0UMvnE", "phase": "Discover", "phaseKey": "discover", "title": "Customer Interviews", "short": "Replace assumptions with evidence.", "about": "A persona is based on assumptions. Customer interviews test those assumptions against reality. The objective is not to convince customers that your idea is good. The objective is to learn from real experiences and behaviour.", "key": ["Ask open-ended questions about real past behaviour.", "Avoid leading questions and do not sell during the interview.", "Look for repeated patterns across multiple conversations."], "output": "Customer Interview Findings", "detail": "Quotes + Frustrations + Current solutions + Behaviour patterns + Validated or rejected assumptions"}, {"video": "L5CSNnFRctQ", "phase": "Design", "phaseKey": "design", "title": "Solution Core Value", "short": "Identify what customers genuinely need.", "about": "Once the problem and customer are understood, ask what value will make the customer genuinely care about the solution. The goal is not to brainstorm more features. It is to identify the core value the customer needs.", "key": ["Analyse what customers currently use and why.", "Identify dissatisfaction, unmet needs and unresolved gaps.", "Prioritise value before features."], "output": "Solution Core Value Statement", "detail": "Customer Problem → Desired Value → Proposed Solution"}, {"video": "8jlR6V2IsbM", "phase": "Design", "phaseKey": "design", "title": "Benchmarking", "short": "Understand alternatives and find your opportunity.", "about": "Benchmarking helps you understand what already exists before committing to a solution. Look at direct competitors, indirect alternatives, market expectations and gaps, then compare possibilities using impact and feasibility.", "key": ["Study direct competitors and indirect alternatives.", "Understand strengths, weaknesses and market gaps.", "Prioritise solutions based on impact and feasibility."], "output": "Benchmarking Analysis", "detail": "Competitors + Alternatives + Strengths + Weaknesses + Market gaps + Differentiation"}, {"video": "rET7-hW8_sw", "phase": "Build the Business", "phaseKey": "build", "title": "Business Model", "short": "Decide how value becomes a sustainable business.", "about": "A strong solution is not automatically a strong business. This session helps you understand how the business creates value, delivers that value and earns money sustainably.", "key": ["Clarify who the customer is, who pays and what they pay for.", "Identify channels, resources, partners and major costs.", "Connect value creation, delivery and revenue."], "output": "Initial Business Model", "detail": "Customer + Value + Delivery + Revenue + Costs"}, {"video": "-H16uXV-yKo", "phase": "Build the Business", "phaseKey": "build", "title": "Pricing Strategy", "short": "Turn customer value into sustainable revenue.", "about": "Pricing is not simply deciding how much something should cost. A strong pricing strategy balances customer value, competition and business sustainability.", "key": ["Understand value-based, competitor-based and sustainability-based pricing.", "Use pricing to clarify market position.", "Create an initial pricing hypothesis."], "output": "Initial Pricing Strategy", "detail": "Proposed price + Pricing logic + Competitor reference + Customer value + Sustainability"}, {"video": "Sw1N-cU7I6M", "phase": "Validate", "phaseKey": "validate", "title": "Minimum Viable Product", "short": "Build the smallest version needed to test the core solution.", "about": "Startups operate under extreme uncertainty, so large investments should not happen before learning whether customers genuinely want the solution. An MVP uses the lowest reasonable investment necessary to test the product's core value and key features.", "key": ["Separate essential from non-essential features.", "Reduce unnecessary investment before validation.", "Design a simple experiment around the core value."], "output": "MVP Plan", "detail": "Core value + Essential feature + What will be tested + Who will test it + Minimum resources"}, {"video": "4KqCBdsquSM", "phase": "Validate", "phaseKey": "validate", "title": "Pretotyping & Behavioral Validation", "short": "Test what customers actually do before investing heavily.", "about": "Sometimes even an MVP requires too much time or money. Pretotyping helps you test whether customers demonstrate real interest before building something substantial, focusing on behaviour rather than opinions.", "key": ["Prioritise actions over what people say they might do.", "Track behavioural metrics such as clicks, sign-ups or purchase attempts.", "Define success thresholds before running the experiment."], "output": "Pretotyping Experiment", "detail": "Hypothesis + Test + Target audience + Desired behaviour + Success metric + Validation threshold"}, {"video": "p_f97ONaPfk", "phase": "Validate", "phaseKey": "validate", "title": "Planning a Landing Page", "short": "Turn the idea into a measurable market experiment.", "about": "A landing page is a single web page designed around one specific customer action. It lets you communicate the problem, solution and value proposition clearly while measuring whether visitors take the action you want.", "key": ["Define one primary call-to-action.", "Communicate what the offer is, who it is for and why it matters.", "Track measurable behaviour such as clicks, sign-ups and conversion rate."], "output": "Landing Page Plan", "detail": "Headline + Customer problem + Solution + Value proposition + Benefits + Evidence + CTA + Validation metric"}];
-const knownLearners = ["Akash Gupta", "Akash Nagar", "Alshiffa Saifi", "Ankit Gosh", "Ashta Jain", "Avika Sharama", "Mahima Nagpal", "Mohit Jain", "Priya Pandey", "Shrishti Saxena", "Umang Goyal", "Priyanka", "Deep Chakraborty", "Rupinder Singh"];
+const knownLearners = ["Akash Gupta", "Akash Nagar", "Alshiffa Saifi", "Ankit Gosh", "Ashta Jain", "Avika Sharama", "Mahima Nagpal", "Mohit Jain", "Priya Pandey", "Shrishti Saxena", "Umang Goyal", "Priyanka", "Deep Chakraborty", "Rupinder Singh", "Sahil", "Harshit", "Prashant", "Toyesha", "Riya"];
 const phaseDefs = [
   {key:'discover', title:'Discover', subtitle:'Problem → Persona → Interview', indices:[0,1,2]},
   {key:'design', title:'Design', subtitle:'Core Value → Benchmarking', indices:[3,4]},
@@ -774,28 +1104,76 @@ function writeDb(data) {
     tx.onerror = () => resolve();
   });
 }
+async function loadRemoteProgress() {
+  try {
+    const response = await fetch('./progress.json?ts=' + Date.now(), {cache:'no-store'});
+    if(!response.ok) return null;
+    const remote = await response.json();
+    return remote && remote.users ? remote : null;
+  } catch(e) {
+    return null;
+  }
+}
+
+function mergeStateUsers(baseUsers, incomingUsers) {
+  const merged = {...(baseUsers || {})};
+
+  Object.entries(incomingUsers || {}).forEach(([name, incoming]) => {
+    const current = merged[name];
+    if(!current) {
+      merged[name] = normaliseUser(incoming);
+      return;
+    }
+
+    const currentTime = Date.parse(current.updatedAt || current.joinedAt || 0) || 0;
+    const incomingTime = Date.parse(incoming.updatedAt || incoming.joinedAt || 0) || 0;
+
+    if(incomingTime > currentTime) {
+      merged[name] = normaliseUser(incoming);
+    }
+  });
+
+  return merged;
+}
+
 async function loadState() {
   let local = null;
   try {
-    const raw = localStorage.getItem('underdogsLearningStateV4') || localStorage.getItem('underdogsLearningStateV2');
+    const raw = localStorage.getItem('underdogsLearningStateV5') || localStorage.getItem('underdogsLearningStateV4') || localStorage.getItem('underdogsLearningStateV2');
     if(raw) local = JSON.parse(raw);
   } catch(e) {}
 
   db = await openDb();
   const indexed = await readDb();
+  const remote = await loadRemoteProgress();
 
   if(indexed && local) state = (indexed.savedAt || 0) >= (local.savedAt || 0) ? indexed : local;
   else if(indexed) state = indexed;
   else if(local) state = local;
 
-  state.version = 4;
+  state.version = 5;
   state.users = state.users || {};
   state.customNames = state.customNames || [];
+
+  if(remote) {
+    state.users = mergeStateUsers(state.users, remote.users);
+
+    const remoteNames = Object.keys(remote.users || {});
+    remoteNames.forEach(name => {
+      if(!knownLearners.includes(name) && !state.customNames.includes(name)) {
+        state.customNames.push(name);
+      }
+    });
+  }
+
+  knownLearners.forEach(name => {
+    if(!state.users[name]) state.users[name] = emptyUser();
+  });
 }
 async function saveState() {
   state.savedAt = Date.now();
   if(activeUser && state.users[activeUser]) state.users[activeUser].updatedAt = new Date().toISOString();
-  localStorage.setItem('underdogsLearningStateV4', JSON.stringify(state));
+  localStorage.setItem('underdogsLearningStateV5', JSON.stringify(state));
   await writeDb(state);
 }
 
@@ -807,73 +1185,23 @@ function allLearnerNames() {
     .sort((a,b)=>a.localeCompare(b));
 }
 
-function closeLearnerMenu() {
-  document.getElementById('learnerPicker').classList.remove('open');
-  document.getElementById('learnerMenu').classList.add('hidden');
-  document.getElementById('learnerPickerBtn').setAttribute('aria-expanded','false');
-}
-
-
-function positionLearnerMenu() {
-  const btn = document.getElementById('learnerPickerBtn');
-  const menu = document.getElementById('learnerMenu');
-  if(!btn || !menu) return;
-
-  if(window.innerWidth <= 760) {
-    menu.style.left = '16px';
-    menu.style.right = '16px';
-    menu.style.width = 'auto';
-    menu.style.top = '50%';
-    menu.style.bottom = 'auto';
-    menu.style.transform = 'translateY(-50%)';
-    return;
-  }
-
-  const rect = btn.getBoundingClientRect();
-  const gap = 6;
-  const viewportPadding = 14;
-  const spaceBelow = window.innerHeight - rect.bottom - viewportPadding;
-  const spaceAbove = rect.top - viewportPadding;
-
-  menu.style.transform = 'none';
-  menu.style.left = Math.max(viewportPadding, rect.left) + 'px';
-  menu.style.right = 'auto';
-  menu.style.width = rect.width + 'px';
-
-  const preferredHeight = Math.min(330, Math.max(180, menu.scrollHeight || 330));
-
-  if(spaceBelow >= Math.min(preferredHeight, 220) || spaceBelow >= spaceAbove) {
-    menu.style.top = (rect.bottom + gap) + 'px';
-    menu.style.bottom = 'auto';
-    menu.style.maxHeight = Math.max(160, spaceBelow - gap) + 'px';
-  } else {
-    menu.style.top = 'auto';
-    menu.style.bottom = (window.innerHeight - rect.top + gap) + 'px';
-    menu.style.maxHeight = Math.max(160, spaceAbove - gap) + 'px';
-  }
-}
-
-function openLearnerMenu() {
-  document.getElementById('learnerPicker').classList.add('open');
-  document.getElementById('learnerMenu').classList.remove('hidden');
-  document.getElementById('learnerPickerBtn').setAttribute('aria-expanded','true');
-  requestAnimationFrame(positionLearnerMenu);
-}
-
-function renderLearnerMenu() {
+function renderLearnerMenu(filter='') {
   const container = document.getElementById('learnerMenuItems');
-  const all = allLearnerNames();
+  const q = filter.trim().toLowerCase();
+  const all = allLearnerNames().filter(n => n.toLowerCase().includes(q));
 
-  container.innerHTML = all.map(n =>
-    '<button class="learner-option" type="button" data-name="' +
-    n.replace(/"/g,'&quot;') + '">' + n + '</button>'
-  ).join('');
+  container.innerHTML = all.length
+    ? all.map(n =>
+        '<button class="learner-option" type="button" data-name="' +
+        n.replace(/"/g,'&quot;') + '">' + n + '</button>'
+      ).join('')
+    : '<div style="padding:18px 8px;color:#8A8D89;font-size:12px">No matching learner found.</div>';
 
   container.querySelectorAll('.learner-option').forEach(btn => {
     btn.addEventListener('click', () => {
       selectedLoginName = btn.dataset.name;
       document.getElementById('learnerPickerText').textContent = selectedLoginName;
-      closeLearnerMenu();
+      closeLearnerModal();
 
       const done = countDone(selectedLoginName);
       const box = document.getElementById('resumeBox');
@@ -884,7 +1212,7 @@ function renderLearnerMenu() {
     });
   });
 
-  if(state.lastUser && all.includes(state.lastUser)) {
+  if(state.lastUser && allLearnerNames().includes(state.lastUser) && !selectedLoginName) {
     selectedLoginName = state.lastUser;
     document.getElementById('learnerPickerText').textContent = state.lastUser;
     const done = countDone(state.lastUser);
@@ -894,31 +1222,31 @@ function renderLearnerMenu() {
   }
 }
 
-document.getElementById('learnerPickerBtn').addEventListener('click', e => {
-  e.stopPropagation();
-  const isOpen = document.getElementById('learnerPicker').classList.contains('open');
-  isOpen ? closeLearnerMenu() : openLearnerMenu();
+function openLearnerModal() {
+  document.getElementById('learnerModal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('learnerSearch').value = '';
+  renderLearnerMenu('');
+  setTimeout(() => document.getElementById('learnerSearch').focus(), 50);
+}
+
+function closeLearnerModal() {
+  document.getElementById('learnerModal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('learnerPickerBtn').addEventListener('click', openLearnerModal);
+document.getElementById('closeLearnerModal').addEventListener('click', closeLearnerModal);
+document.getElementById('learnerModal').addEventListener('click', e => {
+  if(e.target === document.getElementById('learnerModal')) closeLearnerModal();
 });
-
-document.addEventListener('click', e => {
-  if(!document.getElementById('learnerPicker').contains(e.target)) closeLearnerMenu();
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape' && !document.getElementById('learnerModal').classList.contains('hidden')) closeLearnerModal();
 });
-
-window.addEventListener('resize', () => {
-  if(document.getElementById('learnerPicker').classList.contains('open')) {
-    positionLearnerMenu();
-  }
-});
-
-window.addEventListener('scroll', () => {
-  if(document.getElementById('learnerPicker').classList.contains('open')) {
-    positionLearnerMenu();
-  }
-}, {passive:true});
-
+document.getElementById('learnerSearch').addEventListener('input', e => renderLearnerMenu(e.target.value));
 
 function showNewName() {
-  closeLearnerMenu();
+  closeLearnerModal();
   document.getElementById('newNameWrap').classList.remove('hidden');
   document.getElementById('notFoundBtn').classList.add('hidden');
   document.getElementById('newLearner').focus();
@@ -929,12 +1257,13 @@ function hideNewName() {
   document.getElementById('newLearner').value='';
 }
 document.getElementById('notFoundBtn').addEventListener('click', showNewName);
+document.getElementById('modalNotFound').addEventListener('click', showNewName);
 document.getElementById('cancelNewName').addEventListener('click', hideNewName);
 
 async function loginAs(name) {
   name = (name || '').trim().replace(/\s+/g,' ');
   if(!name) {
-    openLearnerMenu();
+    openLearnerModal();
     return;
   }
 
@@ -947,6 +1276,14 @@ async function loginAs(name) {
   state.lastUser = name;
   currentSession = state.users[name].lastSession || firstIncomplete(name);
   await saveState();
+
+  if(!knownLearners.includes(name)) {
+    const resume = document.getElementById('resumeBox');
+    if(resume) {
+      resume.textContent = name + ' was added. This learner will be included the next time you export progress.json.';
+      resume.style.display = 'block';
+    }
+  }
 
   renderLearnerMenu();
   document.getElementById('loginPage').classList.add('hidden');
@@ -964,12 +1301,17 @@ document.getElementById('loginBtn').addEventListener('click',()=>loginAs(selecte
 document.getElementById('createLearner').addEventListener('click',()=>loginAs(document.getElementById('newLearner').value));
 document.getElementById('newLearner').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('createLearner').click(); });
 
-document.getElementById('switchUser').addEventListener('click',()=>{
+function logoutUser() {
+  activeUser = null;
   document.getElementById('app').classList.add('hidden');
   document.getElementById('loginPage').classList.remove('hidden');
   hideNewName();
   renderLearnerMenu();
-});
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('switchUser').addEventListener('click', logoutUser);
+document.getElementById('journeyLogoutBtn').addEventListener('click', logoutUser);
 
 /* navigation */
 const navBtns=[...document.querySelectorAll('.nav-btn')];
@@ -1108,6 +1450,43 @@ document.getElementById('exportBtn').addEventListener('click',()=>{
   URL.revokeObjectURL(url);
   document.getElementById('backupStatus').innerHTML='<span class="save-pill"><span class="save-dot"></span>Backup exported successfully</span>';
 });
+
+function buildGithubProgressFile() {
+  const users = {};
+
+  Object.entries(state.users || {}).forEach(([name, user]) => {
+    const u = normaliseUser(user);
+    users[name] = {
+      completed: [...u.completed],
+      lastSession: u.lastSession || 0,
+      joinedAt: u.joinedAt || new Date().toISOString(),
+      updatedAt: u.updatedAt || new Date().toISOString()
+    };
+  });
+
+  knownLearners.forEach(name => {
+    if(!users[name]) users[name] = emptyUser();
+  });
+
+  return {
+    version: 1,
+    updatedAt: new Date().toISOString(),
+    users
+  };
+}
+
+document.getElementById('exportGithubBtn').addEventListener('click',()=>{
+  const payload = buildGithubProgressFile();
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'progress.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  document.getElementById('backupStatus').innerHTML =
+    '<span class="save-pill"><span class="save-dot"></span>progress.json exported. Replace the file in your GitHub repository to publish the latest names and progress.</span>';
+});
 document.getElementById('importBtn').addEventListener('click',()=>document.getElementById('importFile').click());
 document.getElementById('importFile').addEventListener('change',async e=>{
   const file=e.target.files[0];
@@ -1132,7 +1511,34 @@ document.getElementById('importFile').addEventListener('change',async e=>{
   e.target.value='';
 });
 
+
+function applyTheme(theme) {
+  const value = theme === 'dark' ? 'dark' : 'light';
+  document.body.setAttribute('data-theme', value);
+  localStorage.setItem('underdogsTheme', value);
+
+  const isDark = value === 'dark';
+  const icon = isDark
+    ? '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M12 2V4M12 20V22M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07M2 12H4M20 12H22M4.93 19.07L6.34 17.66M17.66 6.34L19.07 4.93" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>'
+    : '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5 8.6 8.6 0 1 0 20.5 14.6Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>';
+
+  const label = isDark ? 'Light' : 'Dark';
+  const a = document.getElementById('loginThemeToggle');
+  const b = document.getElementById('appThemeToggle');
+  if(a) a.innerHTML = icon + '<span class="theme-label">' + label + '</span>';
+  if(b) b.innerHTML = icon + '<span class="theme-label">' + label + '</span>';
+}
+
+function toggleTheme() {
+  applyTheme(document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+}
+
+document.getElementById('loginThemeToggle').addEventListener('click', toggleTheme);
+document.getElementById('appThemeToggle').addEventListener('click', toggleTheme);
+
+
 (async function init(){
+  applyTheme(localStorage.getItem('underdogsTheme') || 'light');
   await loadState();
   renderLearnerMenu();
   if(window.location.protocol==='file:') document.getElementById('localWarning').style.display='block';
