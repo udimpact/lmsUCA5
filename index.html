@@ -74,8 +74,14 @@ a{color:inherit}
 .picker-arrow{font-size:18px;transition:.18s transform}
 .learner-picker.open .picker-arrow{transform:rotate(180deg)}
 .learner-menu{
-  position:absolute;left:0;right:0;top:58px;background:#fff;border:1px solid #B8BBB8;
-  box-shadow:0 12px 30px rgba(55,57,56,.14);z-index:300;max-height:330px;overflow:auto
+  position:fixed;
+  background:#fff;
+  border:1px solid #B8BBB8;
+  box-shadow:0 18px 45px rgba(55,57,56,.18);
+  z-index:99999;
+  max-height:min(330px,calc(100vh - 32px));
+  overflow:auto;
+  overscroll-behavior:contain
 }
 .learner-menu-title{
   position:sticky;top:0;background:#F7F7F5;border-bottom:1px solid var(--line);
@@ -245,8 +251,21 @@ a{color:inherit}
   .login-foot{display:none}
   .login-panel{padding:34px 22px 44px}
   .login-box h2{font-size:34px}
-  .learner-menu{position:fixed;left:16px;right:16px;top:50%;max-height:60vh;transform:translateY(-50%);z-index:260}
-  .learner-picker.open::before{content:"";position:fixed;inset:0;background:rgba(55,57,56,.45);z-index:250}
+  .learner-menu{
+    left:16px!important;
+    right:16px!important;
+    width:auto!important;
+    top:50%!important;
+    transform:translateY(-50%);
+    max-height:70vh
+  }
+  .learner-picker.open::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:rgba(55,57,56,.45);
+    z-index:99990
+  }
 
 
   .app-header{height:auto;min-height:70px;padding:13px 15px;gap:10px;flex-wrap:wrap}
@@ -794,10 +813,51 @@ function closeLearnerMenu() {
   document.getElementById('learnerPickerBtn').setAttribute('aria-expanded','false');
 }
 
+
+function positionLearnerMenu() {
+  const btn = document.getElementById('learnerPickerBtn');
+  const menu = document.getElementById('learnerMenu');
+  if(!btn || !menu) return;
+
+  if(window.innerWidth <= 760) {
+    menu.style.left = '16px';
+    menu.style.right = '16px';
+    menu.style.width = 'auto';
+    menu.style.top = '50%';
+    menu.style.bottom = 'auto';
+    menu.style.transform = 'translateY(-50%)';
+    return;
+  }
+
+  const rect = btn.getBoundingClientRect();
+  const gap = 6;
+  const viewportPadding = 14;
+  const spaceBelow = window.innerHeight - rect.bottom - viewportPadding;
+  const spaceAbove = rect.top - viewportPadding;
+
+  menu.style.transform = 'none';
+  menu.style.left = Math.max(viewportPadding, rect.left) + 'px';
+  menu.style.right = 'auto';
+  menu.style.width = rect.width + 'px';
+
+  const preferredHeight = Math.min(330, Math.max(180, menu.scrollHeight || 330));
+
+  if(spaceBelow >= Math.min(preferredHeight, 220) || spaceBelow >= spaceAbove) {
+    menu.style.top = (rect.bottom + gap) + 'px';
+    menu.style.bottom = 'auto';
+    menu.style.maxHeight = Math.max(160, spaceBelow - gap) + 'px';
+  } else {
+    menu.style.top = 'auto';
+    menu.style.bottom = (window.innerHeight - rect.top + gap) + 'px';
+    menu.style.maxHeight = Math.max(160, spaceAbove - gap) + 'px';
+  }
+}
+
 function openLearnerMenu() {
   document.getElementById('learnerPicker').classList.add('open');
   document.getElementById('learnerMenu').classList.remove('hidden');
   document.getElementById('learnerPickerBtn').setAttribute('aria-expanded','true');
+  requestAnimationFrame(positionLearnerMenu);
 }
 
 function renderLearnerMenu() {
@@ -843,6 +903,19 @@ document.getElementById('learnerPickerBtn').addEventListener('click', e => {
 document.addEventListener('click', e => {
   if(!document.getElementById('learnerPicker').contains(e.target)) closeLearnerMenu();
 });
+
+window.addEventListener('resize', () => {
+  if(document.getElementById('learnerPicker').classList.contains('open')) {
+    positionLearnerMenu();
+  }
+});
+
+window.addEventListener('scroll', () => {
+  if(document.getElementById('learnerPicker').classList.contains('open')) {
+    positionLearnerMenu();
+  }
+}, {passive:true});
+
 
 function showNewName() {
   closeLearnerMenu();
