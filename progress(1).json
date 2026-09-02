@@ -1,0 +1,329 @@
+{
+  "version": 1,
+  "updatedAt": "2026-09-02T00:00:00.000Z",
+  "users": {
+    "Akash Gupta": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Akash Nagar": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Alshiffa Saifi": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Ankit Gosh": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Ashta Jain": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Avika Sharama": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Mahima Nagpal": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Mohit Jain": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Priya Pandey": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Shrishti Saxena": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Umang Goyal": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Priyanka": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Deep Chakraborty": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Rupinder Singh": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Sahil": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Harshit": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Prashant": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Toyesha": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    },
+    "Riya": {
+      "completed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "lastSession": 0,
+      "joinedAt": null,
+      "updatedAt": null
+    }
+  }
+}
