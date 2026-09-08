@@ -10,6 +10,9 @@
 <link href="https://cdn.prod.website-files.com/6944f3c45c38121ba99c91de/69cb681a8f6d1158ecb97229_favicon_dark.png" rel="icon" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
 <link href="https://cdn.prod.website-files.com/img/webclip.png" rel="apple-touch-icon">
 
+<!-- Google Identity Services: replace GOOGLE_CLIENT_ID in the app script below -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
 
@@ -222,6 +225,8 @@ body[data-theme="dark"] .modal-not-found:hover{
   background:var(--orange);
 }
 body[data-theme="dark"] .login-note,
+body[data-theme="dark"] .google-login-status,
+body[data-theme="dark"] .google-account-note,
 body[data-theme="dark"] .backup-status,
 body[data-theme="dark"] .save-pill,
 body[data-theme="dark"] .lesson-copy small,
@@ -392,6 +397,14 @@ body[data-theme="dark"] .nav button.active{
 .new-name-actions .btn{flex:1}
 .resume-box{display:none;margin-top:18px;background:#FFF4EE;border-left:3px solid var(--orange);padding:12px 14px;font-size:12px;line-height:1.5}
 .login-note{margin-top:17px;color:#969995;font-size:11px;line-height:1.55}
+
+.google-login-wrap{margin:8px 0 22px}
+.google-signin-slot{min-height:44px;display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
+.google-login-status{margin:9px 0 0;color:var(--muted);font-size:11px;line-height:1.5}
+.google-login-status.error{color:#B93815}
+.login-divider{display:flex;align-items:center;gap:12px;margin:22px 0;color:#9A9D99;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.login-divider::before,.login-divider::after{content:"";height:1px;background:var(--line);flex:1}
+.google-account-note{margin-top:8px;color:var(--muted);font-size:10px;line-height:1.5}
 
 /* ---------- app header ---------- */
 .app-header{height:82px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:100}
@@ -655,7 +668,14 @@ body[data-theme="dark"] .nav button.active{
         </button>
       </div>
       <h2>Continue your journey.</h2>
-      <p class="intro">Select your name to open your learning record. If your name is not listed, you can create it in one step.</p>
+      <p class="intro">Sign in with Google to open your personal learning record. Existing learners can still continue with the learner list below.</p>
+
+      <div class="google-login-wrap">
+        <div id="googleSignInBtn" class="google-signin-slot" aria-label="Sign in with Google"></div>
+        <p id="googleLoginStatus" class="google-login-status">Loading Google sign-in…</p>
+      </div>
+
+      <div class="login-divider"><span>or use learner list</span></div>
 
       <div class="field">
         <label>Your name</label>
@@ -682,7 +702,7 @@ body[data-theme="dark"] .nav button.active{
 
       <button id="loginBtn" class="btn dark login-action" type="button">Continue →</button>
       <div id="resumeBox" class="resume-box"></div>
-      <p class="login-note">Your progress is saved automatically in this browser and mirrored in IndexedDB. You can also export a backup from My Journey.</p>
+      <p class="login-note">Google identifies your account, while course progress is still saved automatically on this browser and mirrored in IndexedDB. Google login by itself does not sync lesson progress across devices.</p>
     </div>
   </div>
 
@@ -1039,6 +1059,129 @@ body[data-theme="dark"] .nav button.active{
 <script>
 const sessions = [{"video": "xdCgCubuDqw", "phase": "Discover", "phaseKey": "discover", "title": "Defining the Problem", "short": "Find a meaningful problem worth solving.", "about": "Entrepreneurship should not begin with building a product. It begins with understanding a problem. This session helps you identify a specific problem, understand who is affected, why it matters, how serious it is, and why this is the right time to solve it.", "key": ["Start with a problem worth solving, not just an exciting idea.", "Understand who experiences the problem and why it matters.", "Assess seriousness, relevance and timing before building."], "output": "Problem Statement", "detail": "Who has the problem + What the problem is + Why it matters"}, {"video": "JlLBqcuZaak", "phase": "Discover", "phaseKey": "discover", "title": "Creating a Persona", "short": "Understand exactly who experiences the problem.", "about": "Once the problem is clear, identify who actually experiences it. Build a specific customer persona by looking at background, situation, goals, frustrations, behaviours and current alternatives.", "key": ["Move beyond broad labels like students or working professionals.", "Describe the primary customer or beneficiary in a specific way.", "Treat the first persona as a hypothesis that must be tested."], "output": "Customer Persona", "detail": "Background + Situation + Goals + Pain points + Behaviours + Current alternatives"}, {"video": "xQsLj0UMvnE", "phase": "Discover", "phaseKey": "discover", "title": "Customer Interviews", "short": "Replace assumptions with evidence.", "about": "A persona is based on assumptions. Customer interviews test those assumptions against reality. The objective is not to convince customers that your idea is good. The objective is to learn from real experiences and behaviour.", "key": ["Ask open-ended questions about real past behaviour.", "Avoid leading questions and do not sell during the interview.", "Look for repeated patterns across multiple conversations."], "output": "Customer Interview Findings", "detail": "Quotes + Frustrations + Current solutions + Behaviour patterns + Validated or rejected assumptions"}, {"video": "L5CSNnFRctQ", "phase": "Design", "phaseKey": "design", "title": "Solution Core Value", "short": "Identify what customers genuinely need.", "about": "Once the problem and customer are understood, ask what value will make the customer genuinely care about the solution. The goal is not to brainstorm more features. It is to identify the core value the customer needs.", "key": ["Analyse what customers currently use and why.", "Identify dissatisfaction, unmet needs and unresolved gaps.", "Prioritise value before features."], "output": "Solution Core Value Statement", "detail": "Customer Problem → Desired Value → Proposed Solution"}, {"video": "8jlR6V2IsbM", "phase": "Design", "phaseKey": "design", "title": "Benchmarking", "short": "Understand alternatives and find your opportunity.", "about": "Benchmarking helps you understand what already exists before committing to a solution. Look at direct competitors, indirect alternatives, market expectations and gaps, then compare possibilities using impact and feasibility.", "key": ["Study direct competitors and indirect alternatives.", "Understand strengths, weaknesses and market gaps.", "Prioritise solutions based on impact and feasibility."], "output": "Benchmarking Analysis", "detail": "Competitors + Alternatives + Strengths + Weaknesses + Market gaps + Differentiation"}, {"video": "rET7-hW8_sw", "phase": "Build the Business", "phaseKey": "build", "title": "Business Model", "short": "Decide how value becomes a sustainable business.", "about": "A strong solution is not automatically a strong business. This session helps you understand how the business creates value, delivers that value and earns money sustainably.", "key": ["Clarify who the customer is, who pays and what they pay for.", "Identify channels, resources, partners and major costs.", "Connect value creation, delivery and revenue."], "output": "Initial Business Model", "detail": "Customer + Value + Delivery + Revenue + Costs"}, {"video": "-H16uXV-yKo", "phase": "Build the Business", "phaseKey": "build", "title": "Pricing Strategy", "short": "Turn customer value into sustainable revenue.", "about": "Pricing is not simply deciding how much something should cost. A strong pricing strategy balances customer value, competition and business sustainability.", "key": ["Understand value-based, competitor-based and sustainability-based pricing.", "Use pricing to clarify market position.", "Create an initial pricing hypothesis."], "output": "Initial Pricing Strategy", "detail": "Proposed price + Pricing logic + Competitor reference + Customer value + Sustainability"}, {"video": "Sw1N-cU7I6M", "phase": "Validate", "phaseKey": "validate", "title": "Minimum Viable Product", "short": "Build the smallest version needed to test the core solution.", "about": "Startups operate under extreme uncertainty, so large investments should not happen before learning whether customers genuinely want the solution. An MVP uses the lowest reasonable investment necessary to test the product's core value and key features.", "key": ["Separate essential from non-essential features.", "Reduce unnecessary investment before validation.", "Design a simple experiment around the core value."], "output": "MVP Plan", "detail": "Core value + Essential feature + What will be tested + Who will test it + Minimum resources"}, {"video": "4KqCBdsquSM", "phase": "Validate", "phaseKey": "validate", "title": "Pretotyping & Behavioral Validation", "short": "Test what customers actually do before investing heavily.", "about": "Sometimes even an MVP requires too much time or money. Pretotyping helps you test whether customers demonstrate real interest before building something substantial, focusing on behaviour rather than opinions.", "key": ["Prioritise actions over what people say they might do.", "Track behavioural metrics such as clicks, sign-ups or purchase attempts.", "Define success thresholds before running the experiment."], "output": "Pretotyping Experiment", "detail": "Hypothesis + Test + Target audience + Desired behaviour + Success metric + Validation threshold"}, {"video": "p_f97ONaPfk", "phase": "Validate", "phaseKey": "validate", "title": "Planning a Landing Page", "short": "Turn the idea into a measurable market experiment.", "about": "A landing page is a single web page designed around one specific customer action. It lets you communicate the problem, solution and value proposition clearly while measuring whether visitors take the action you want.", "key": ["Define one primary call-to-action.", "Communicate what the offer is, who it is for and why it matters.", "Track measurable behaviour such as clicks, sign-ups and conversion rate."], "output": "Landing Page Plan", "detail": "Headline + Customer problem + Solution + Value proposition + Benefits + Evidence + CTA + Validation metric"}];
 const knownLearners = ["Akash Gupta", "Akash Nagar", "Alshiffa Saifi", "Ankit Gosh", "Ashta Jain", "Avika Sharama", "Mahima Nagpal", "Mohit Jain", "Priya Pandey", "Shrishti Saxena", "Umang Goyal", "Priyanka", "Deep Chakraborty", "Rupinder Singh", "Sahil", "Harshit", "Prashant", "Toyesha", "Riya"];
+
+
+/* ---------- Google Sign-In ----------
+   Create a Web OAuth Client ID in Google Cloud / Google Auth Platform,
+   add your GitHub Pages origin as an Authorized JavaScript origin,
+   then paste the Client ID below. Example format:
+   1234567890-abc123.apps.googleusercontent.com
+*/
+const GOOGLE_CLIENT_ID = '1061637076144-4k4onbbd3l9d4c9qjgesl8vel98stsui.apps.googleusercontent.com';
+let googleIdentityInitialized = false;
+let activeUserDisplayName = '';
+let activeUserEmail = '';
+
+function decodeGoogleJwt(token) {
+  try {
+    const payload = token.split('.')[1];
+    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const json = decodeURIComponent(atob(base64).split('').map(c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''));
+    return JSON.parse(json);
+  } catch(e) {
+    return null;
+  }
+}
+
+function getActiveDisplayName() {
+  if(!activeUser) return '';
+  const profile = state.users?.[activeUser]?.profile;
+  return profile?.name || activeUserDisplayName || activeUser;
+}
+
+function setSignedInHeader() {
+  const displayName = getActiveDisplayName() || 'Learner';
+  document.getElementById('userName').textContent = displayName;
+  document.getElementById('userAvatar').textContent = initials(displayName);
+}
+
+async function handleGoogleCredentialResponse(response) {
+  const status = document.getElementById('googleLoginStatus');
+  const profile = decodeGoogleJwt(response?.credential || '');
+  if(!profile?.sub) {
+    if(status) {
+      status.textContent = 'Google sign-in could not be completed. Please try again.';
+      status.classList.add('error');
+    }
+    return;
+  }
+
+  const userKey = 'google:' + profile.sub;
+  if(!state.users[userKey]) state.users[userKey] = emptyUser();
+  state.users[userKey] = normaliseUser(state.users[userKey]);
+  state.users[userKey].profile = {
+    auth: 'google',
+    sub: profile.sub,
+    name: profile.name || profile.given_name || profile.email || 'Learner',
+    email: profile.email || '',
+    picture: profile.picture || ''
+  };
+
+  activeUser = userKey;
+  activeUserDisplayName = state.users[userKey].profile.name;
+  activeUserEmail = state.users[userKey].profile.email;
+  state.lastGoogleUser = userKey;
+  currentSession = state.users[userKey].lastSession || firstIncomplete(userKey);
+  await saveState();
+
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  setSignedInHeader();
+  refreshCourseUI();
+  renderLesson(currentSession);
+  showPage('course');
+}
+
+function renderGoogleButton() {
+  if(!googleIdentityInitialized || !window.google?.accounts?.id) return;
+  const target = document.getElementById('googleSignInBtn');
+  if(!target) return;
+  target.innerHTML = '';
+  const maxWidth = Math.max(220, Math.min(400, Math.floor(target.getBoundingClientRect().width || 400)));
+  google.accounts.id.renderButton(target, {
+    type: 'standard',
+    theme: document.body.getAttribute('data-theme') === 'dark' ? 'filled_black' : 'outline',
+    size: 'large',
+    text: 'continue_with',
+    shape: 'rectangular',
+    logo_alignment: 'left',
+    width: maxWidth
+  });
+}
+
+function initGoogleSignIn(attempt=0) {
+  const status = document.getElementById('googleLoginStatus');
+  if(!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.includes('PASTE_YOUR_GOOGLE_WEB_CLIENT_ID_HERE')) {
+    if(status) {
+      status.textContent = 'Google sign-in needs your Google Web Client ID. See the setup note in this HTML file.';
+      status.classList.add('error');
+    }
+    return;
+  }
+
+  if(!window.google?.accounts?.id) {
+    if(attempt < 40) setTimeout(() => initGoogleSignIn(attempt + 1), 250);
+    else if(status) {
+      status.textContent = 'Google sign-in could not load. Check your connection or content blockers.';
+      status.classList.add('error');
+    }
+    return;
+  }
+
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleGoogleCredentialResponse,
+    auto_select: false
+  });
+  googleIdentityInitialized = true;
+  renderGoogleButton();
+  if(status) {
+    status.textContent = 'Use any permitted Google account to continue.';
+    status.classList.remove('error');
+  }
+}
 const phaseDefs = [
   {key:'discover', title:'Discover', subtitle:'Problem → Persona → Interview', indices:[0,1,2]},
   {key:'design', title:'Design', subtitle:'Core Value → Benchmarking', indices:[3,4]},
@@ -1272,6 +1415,8 @@ async function loginAs(name) {
   if(!knownLearners.includes(name) && !state.customNames.includes(name)) state.customNames.push(name);
 
   activeUser = name;
+  activeUserDisplayName = name;
+  activeUserEmail = '';
   selectedLoginName = name;
   state.lastUser = name;
   currentSession = state.users[name].lastSession || firstIncomplete(name);
@@ -1289,8 +1434,7 @@ async function loginAs(name) {
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
 
-  document.getElementById('userName').textContent = activeUser;
-  document.getElementById('userAvatar').textContent = initials(activeUser);
+  setSignedInHeader();
 
   refreshCourseUI();
   renderLesson(currentSession);
@@ -1302,7 +1446,10 @@ document.getElementById('createLearner').addEventListener('click',()=>loginAs(do
 document.getElementById('newLearner').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('createLearner').click(); });
 
 function logoutUser() {
+  if(window.google?.accounts?.id) google.accounts.id.disableAutoSelect();
   activeUser = null;
+  activeUserDisplayName = '';
+  activeUserEmail = '';
   document.getElementById('app').classList.add('hidden');
   document.getElementById('loginPage').classList.remove('hidden');
   hideNewName();
@@ -1407,7 +1554,7 @@ function renderJourney() {
   const done=u.completed.filter(Boolean).length;
   const next=done===10?9:firstIncomplete(activeUser);
 
-  document.getElementById('journeyName').textContent=activeUser;
+  document.getElementById('journeyName').textContent=getActiveDisplayName();
   document.getElementById('journeyPercent').textContent=(done*10)+'%';
   document.getElementById('journeyCount').textContent=done+' of 10 lessons complete';
   document.getElementById('outputsBuilt').textContent=done;
@@ -1456,6 +1603,8 @@ function buildGithubProgressFile() {
 
   Object.entries(state.users || {}).forEach(([name, user]) => {
     const u = normaliseUser(user);
+    // Do not publish Google account identifiers/profile data into a public GitHub Pages repo.
+    if(name.startsWith('google:') || u.profile?.auth === 'google') return;
     users[name] = {
       completed: [...u.completed],
       lastSession: u.lastSession || 0,
@@ -1527,6 +1676,7 @@ function applyTheme(theme) {
   const b = document.getElementById('appThemeToggle');
   if(a) a.innerHTML = icon + '<span class="theme-label">' + label + '</span>';
   if(b) b.innerHTML = icon + '<span class="theme-label">' + label + '</span>';
+  if(googleIdentityInitialized) renderGoogleButton();
 }
 
 function toggleTheme() {
@@ -1541,6 +1691,7 @@ document.getElementById('appThemeToggle').addEventListener('click', toggleTheme)
   applyTheme(localStorage.getItem('underdogsTheme') || 'light');
   await loadState();
   renderLearnerMenu();
+  initGoogleSignIn();
   if(window.location.protocol==='file:') document.getElementById('localWarning').style.display='block';
 })();
 </script>
