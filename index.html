@@ -10,8 +10,9 @@
 <link href="https://cdn.prod.website-files.com/6944f3c45c38121ba99c91de/69cb681a8f6d1158ecb97229_favicon_dark.png" rel="icon" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)">
 <link href="https://cdn.prod.website-files.com/img/webclip.png" rel="apple-touch-icon">
 
-<!-- Google Identity Services: replace GOOGLE_CLIENT_ID in the app script below -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700;800&display=swap');
@@ -234,10 +235,6 @@ body[data-theme="dark"] .module-head small,
 body[data-theme="dark"] .user-copy small{
   color:#A9ACA9;
 }
-body[data-theme="dark"] .app-header .ud-logo-img{
-  filter:brightness(0) invert(1);
-}
-
 body[data-theme="dark"] .app-brand .course-name,
 body[data-theme="dark"] .nav button{
   color:#A9ACA9;
@@ -250,6 +247,8 @@ body[data-theme="dark"] .nav button.active{
 
 /* ---------- shared brand ---------- */
 .ud-logo-img{height:27px;width:auto;display:block}
+body[data-theme="dark"] .app-brand .ud-logo-img{filter:brightness(0) invert(1)}
+body[data-theme="dark"] .app-brand .ud-logo-fallback{color:#fff}
 .ud-logo-fallback{display:none;font-size:25px;font-weight:800;letter-spacing:-1.4px}
 .ud-logo-fallback i{font-style:normal;color:var(--orange)}
 .eyebrow{font-size:11px;line-height:1.2;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
@@ -404,6 +403,11 @@ body[data-theme="dark"] .nav button.active{
 
 .google-login-wrap{margin:8px 0 22px}
 .google-signin-slot{min-height:44px;display:flex;align-items:center;justify-content:flex-start;overflow:hidden}
+.firebase-google-btn{width:100%;height:46px;border:1px solid #C8CBC8;background:#fff;color:#1f1f1f;display:flex;align-items:center;justify-content:center;gap:11px;font-size:14px;font-weight:600;border-radius:4px}
+.firebase-google-btn:hover{background:#F8F8F8;border-color:#AEB2AE}
+.firebase-google-g{font-size:18px;font-weight:800;color:#4285F4}
+body[data-theme="dark"] .firebase-google-btn{background:#171717;color:#fff;border-color:#3A3A3A}
+body[data-theme="dark"] .firebase-google-btn:hover{background:#222}
 .google-login-status{margin:9px 0 0;color:var(--muted);font-size:11px;line-height:1.5}
 .google-login-status.error{color:#B93815}
 .login-divider{display:flex;align-items:center;gap:12px;margin:22px 0;color:#9A9D99;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em}
@@ -706,7 +710,7 @@ body[data-theme="dark"] .nav button.active{
 
       <button id="loginBtn" class="btn dark login-action" type="button">Continue →</button>
       <div id="resumeBox" class="resume-box"></div>
-      <p class="login-note">Google identifies your account, while course progress is still saved automatically on this browser and mirrored in IndexedDB. Google login by itself does not sync lesson progress across devices.</p>
+      <p class="login-note">Sign in with Google to sync your learning progress securely across devices. A local browser copy is also kept as a backup.</p>
     </div>
   </div>
 
@@ -1065,27 +1069,35 @@ const sessions = [{"video": "xdCgCubuDqw", "phase": "Discover", "phaseKey": "dis
 const knownLearners = ["Akash Gupta", "Akash Nagar", "Alshiffa Saifi", "Ankit Gosh", "Ashta Jain", "Avika Sharama", "Mahima Nagpal", "Mohit Jain", "Priya Pandey", "Shrishti Saxena", "Umang Goyal", "Priyanka", "Deep Chakraborty", "Rupinder Singh", "Sahil", "Harshit", "Prashant", "Toyesha", "Riya"];
 
 
-/* ---------- Google Sign-In ----------
-   Create a Web OAuth Client ID in Google Cloud / Google Auth Platform,
-   add your GitHub Pages origin as an Authorized JavaScript origin,
-   then paste the Client ID below. Example format:
-   1234567890-abc123.apps.googleusercontent.com
-*/
-const GOOGLE_CLIENT_ID = '1061637076144-4k4onbbd3l9d4c9qjgesl8vel98stsui.apps.googleusercontent.com';
-let googleIdentityInitialized = false;
+/* ---------- Firebase + Google Sign-In ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyCjLjSNTcA4gxFE4xkNRYRAxl30dh0pxlw",
+  authDomain: "udlms-d1426.firebaseapp.com",
+  projectId: "udlms-d1426",
+  storageBucket: "udlms-d1426.firebasestorage.app",
+  messagingSenderId: "452359169112",
+  appId: "1:452359169112:web:96931f453b8f601893962d",
+  measurementId: "G-61M60H81Z7"
+};
+
+let firebaseReady = false;
+let firebaseAuth = null;
+let firestoreDb = null;
+let cloudSyncAvailable = false;
 let activeUserDisplayName = '';
 let activeUserEmail = '';
 
-function decodeGoogleJwt(token) {
+function initFirebase() {
   try {
-    const payload = token.split('.')[1];
-    const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
-    const json = decodeURIComponent(atob(base64).split('').map(c =>
-      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-    ).join(''));
-    return JSON.parse(json);
+    if(!window.firebase) return false;
+    if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    firebaseAuth = firebase.auth();
+    firestoreDb = firebase.firestore();
+    firebaseReady = true;
+    return true;
   } catch(e) {
-    return null;
+    console.error('Firebase init failed', e);
+    return false;
   }
 }
 
@@ -1101,88 +1113,170 @@ function setSignedInHeader() {
   document.getElementById('userAvatar').textContent = initials(displayName);
 }
 
-async function handleGoogleCredentialResponse(response) {
-  const status = document.getElementById('googleLoginStatus');
-  const profile = decodeGoogleJwt(response?.credential || '');
-  if(!profile?.sub) {
-    if(status) {
-      status.textContent = 'Google sign-in could not be completed. Please try again.';
-      status.classList.add('error');
-    }
-    return;
-  }
-
-  const userKey = 'google:' + profile.sub;
-  if(!state.users[userKey]) state.users[userKey] = emptyUser();
-  state.users[userKey] = normaliseUser(state.users[userKey]);
-  state.users[userKey].profile = {
-    auth: 'google',
-    sub: profile.sub,
-    name: profile.name || profile.given_name || profile.email || 'Learner',
-    email: profile.email || '',
-    picture: profile.picture || ''
-  };
-
-  activeUser = userKey;
-  activeUserDisplayName = state.users[userKey].profile.name;
-  activeUserEmail = state.users[userKey].profile.email;
-  state.lastGoogleUser = userKey;
-  currentSession = state.users[userKey].lastSession || firstIncomplete(userKey);
-  await saveState();
-
-  document.getElementById('loginPage').classList.add('hidden');
-  document.getElementById('app').classList.remove('hidden');
-  setSignedInHeader();
-  refreshCourseUI();
-  renderLesson(currentSession);
-  showPage('course');
-}
-
 function renderGoogleButton() {
-  if(!googleIdentityInitialized || !window.google?.accounts?.id) return;
   const target = document.getElementById('googleSignInBtn');
   if(!target) return;
-  target.innerHTML = '';
-  const maxWidth = Math.max(220, Math.min(400, Math.floor(target.getBoundingClientRect().width || 400)));
-  google.accounts.id.renderButton(target, {
-    type: 'standard',
-    theme: document.body.getAttribute('data-theme') === 'dark' ? 'filled_black' : 'outline',
-    size: 'large',
-    text: 'continue_with',
-    shape: 'rectangular',
-    logo_alignment: 'left',
-    width: maxWidth
-  });
+  target.innerHTML = '<button id="firebaseGoogleBtn" class="firebase-google-btn" type="button"><span class="firebase-google-g">G</span><span>Continue with Google</span></button>';
+  document.getElementById('firebaseGoogleBtn').addEventListener('click', signInWithFirebaseGoogle);
 }
 
-function initGoogleSignIn(attempt=0) {
+function mergeProgress(localUser, remoteUser) {
+  const a = normaliseUser(localUser || emptyUser());
+  const b = normaliseUser(remoteUser || emptyUser());
+  const merged = normaliseUser({...a});
+  merged.completed = merged.completed.map((v,i)=>!!v || !!b.completed[i]);
+  const at = Date.parse(a.updatedAt || 0) || 0;
+  const bt = Date.parse(b.updatedAt || 0) || 0;
+  merged.lastSession = bt > at ? (b.lastSession || 0) : (a.lastSession || 0);
+  merged.joinedAt = [a.joinedAt,b.joinedAt].filter(Boolean).sort()[0] || new Date().toISOString();
+  merged.updatedAt = bt > at ? b.updatedAt : a.updatedAt;
+  merged.profile = {...(a.profile||{}), ...(b.profile||{})};
+  return merged;
+}
+
+async function loadFirebaseProgress(uid) {
+  if(!firestoreDb || !uid) return null;
+  try {
+    const snap = await firestoreDb.collection('participants').doc(uid).get();
+    cloudSyncAvailable = true;
+    if(!snap.exists) return null;
+    const data = snap.data() || {};
+    return {
+      completed: Array.isArray(data.completed) ? data.completed : Array(10).fill(false),
+      lastSession: Number.isInteger(data.lastSession) ? data.lastSession : 0,
+      joinedAt: data.joinedAt || new Date().toISOString(),
+      updatedAt: data.updatedAt || new Date().toISOString(),
+      profile: {
+        auth:'firebase-google',
+        uid,
+        name:data.name || 'Learner',
+        email:data.email || '',
+        picture:data.photoURL || ''
+      }
+    };
+  } catch(e) {
+    cloudSyncAvailable = false;
+    console.warn('Firestore load failed', e);
+    return null;
+  }
+}
+
+function updateCloudStatus(message, isError=false) {
+  const loginStatus = document.getElementById('googleLoginStatus');
+  if(loginStatus && !document.getElementById('loginPage').classList.contains('hidden')) {
+    loginStatus.textContent = message;
+    loginStatus.classList.toggle('error', !!isError);
+  }
+  const backup = document.getElementById('backupStatus');
+  if(backup && activeUser?.startsWith('firebase:')) {
+    backup.innerHTML = '<span class="save-pill"><span class="save-dot"></span>' + message + '</span>';
+  }
+}
+
+async function syncFirebaseProgress() {
+  if(!firebaseReady || !firestoreDb || !firebaseAuth?.currentUser || !activeUser?.startsWith('firebase:')) return;
+  const fbUser = firebaseAuth.currentUser;
+  const u = normaliseUser(state.users[activeUser]);
+  const done = u.completed.filter(Boolean).length;
+  const s = sessions[Math.max(0, Math.min(9, u.lastSession || 0))];
+  try {
+    await firestoreDb.collection('participants').doc(fbUser.uid).set({
+      uid: fbUser.uid,
+      name: fbUser.displayName || u.profile?.name || 'Learner',
+      email: fbUser.email || u.profile?.email || '',
+      photoURL: fbUser.photoURL || u.profile?.picture || '',
+      courseId: 'startup-journey',
+      courseTitle: 'Startup Journey',
+      completed: [...u.completed],
+      lessonsCompleted: done,
+      progressPercent: done * 10,
+      lastSession: u.lastSession || 0,
+      currentLesson: s?.title || '',
+      currentPhase: s?.phase || '',
+      joinedAt: u.joinedAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      lastActive: firebase.firestore.FieldValue.serverTimestamp()
+    }, {merge:true});
+    cloudSyncAvailable = true;
+    updateCloudStatus('Progress synced to Firebase');
+  } catch(e) {
+    cloudSyncAvailable = false;
+    console.warn('Firestore sync failed', e);
+    updateCloudStatus('Saved on this device. Firebase sync needs Firestore/rules setup.', true);
+  }
+}
+
+async function signInWithFirebaseGoogle() {
   const status = document.getElementById('googleLoginStatus');
-  if(!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.includes('PASTE_YOUR_GOOGLE_WEB_CLIENT_ID_HERE')) {
-    if(status) {
-      status.textContent = 'Google sign-in needs your Google Web Client ID. See the setup note in this HTML file.';
-      status.classList.add('error');
-    }
-    return;
-  }
-
-  if(!window.google?.accounts?.id) {
-    if(attempt < 40) setTimeout(() => initGoogleSignIn(attempt + 1), 250);
-    else if(status) {
-      status.textContent = 'Google sign-in could not load. Check your connection or content blockers.';
-      status.classList.add('error');
-    }
-    return;
-  }
-
-  google.accounts.id.initialize({
-    client_id: GOOGLE_CLIENT_ID,
-    callback: handleGoogleCredentialResponse,
-    auto_select: false
-  });
-  googleIdentityInitialized = true;
-  renderGoogleButton();
   if(status) {
-    status.textContent = 'Use any permitted Google account to continue.';
+    status.textContent = 'Opening Google sign-in…';
+    status.classList.remove('error');
+  }
+  if(!firebaseReady && !initFirebase()) {
+    if(status) {
+      status.textContent = 'Firebase could not load. Check your internet connection.';
+      status.classList.add('error');
+    }
+    return;
+  }
+
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({prompt:'select_account'});
+    const result = await firebaseAuth.signInWithPopup(provider);
+    const fbUser = result.user;
+    const userKey = 'firebase:' + fbUser.uid;
+
+    if(!state.users[userKey]) state.users[userKey] = emptyUser();
+    state.users[userKey] = normaliseUser(state.users[userKey]);
+
+    const remote = await loadFirebaseProgress(fbUser.uid);
+    if(remote) state.users[userKey] = mergeProgress(state.users[userKey], remote);
+
+    state.users[userKey].profile = {
+      auth:'firebase-google',
+      uid:fbUser.uid,
+      name:fbUser.displayName || remote?.profile?.name || fbUser.email || 'Learner',
+      email:fbUser.email || '',
+      picture:fbUser.photoURL || ''
+    };
+
+    activeUser = userKey;
+    activeUserDisplayName = state.users[userKey].profile.name;
+    activeUserEmail = state.users[userKey].profile.email;
+    state.lastGoogleUser = userKey;
+    currentSession = state.users[userKey].lastSession || firstIncomplete(userKey);
+    await saveState();
+
+    document.getElementById('loginPage').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
+    setSignedInHeader();
+    refreshCourseUI();
+    renderLesson(currentSession);
+    showPage('course');
+  } catch(e) {
+    console.error('Google/Firebase sign-in failed', e);
+    if(status) {
+      if(e.code === 'auth/operation-not-allowed') {
+        status.textContent = 'Enable Google in Firebase Authentication, then try again.';
+      } else if(e.code === 'auth/unauthorized-domain') {
+        status.textContent = 'Add your GitHub Pages domain in Firebase Authentication → Settings → Authorized domains.';
+      } else if(e.code === 'auth/popup-closed-by-user') {
+        status.textContent = 'Google sign-in was cancelled.';
+      } else {
+        status.textContent = 'Google sign-in failed: ' + (e.message || e.code || 'Please try again.');
+      }
+      status.classList.add('error');
+    }
+  }
+}
+
+function initGoogleSignIn() {
+  initFirebase();
+  renderGoogleButton();
+  const status = document.getElementById('googleLoginStatus');
+  if(status) {
+    status.textContent = 'Sign in to sync progress across devices.';
     status.classList.remove('error');
   }
 }
@@ -1322,6 +1416,7 @@ async function saveState() {
   if(activeUser && state.users[activeUser]) state.users[activeUser].updatedAt = new Date().toISOString();
   localStorage.setItem('underdogsLearningStateV5', JSON.stringify(state));
   await writeDb(state);
+  await syncFirebaseProgress();
 }
 
 let selectedLoginName = '';
@@ -1450,7 +1545,7 @@ document.getElementById('createLearner').addEventListener('click',()=>loginAs(do
 document.getElementById('newLearner').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('createLearner').click(); });
 
 function logoutUser() {
-  if(window.google?.accounts?.id) google.accounts.id.disableAutoSelect();
+  if(firebaseAuth?.currentUser) firebaseAuth.signOut().catch(()=>{});
   activeUser = null;
   activeUserDisplayName = '';
   activeUserEmail = '';
@@ -1607,8 +1702,7 @@ function buildGithubProgressFile() {
 
   Object.entries(state.users || {}).forEach(([name, user]) => {
     const u = normaliseUser(user);
-    // Do not publish Google account identifiers/profile data into a public GitHub Pages repo.
-    if(name.startsWith('google:') || u.profile?.auth === 'google') return;
+    if(name.startsWith('google:') || name.startsWith('firebase:') || u.profile?.auth === 'google' || u.profile?.auth === 'firebase-google') return;
     users[name] = {
       completed: [...u.completed],
       lastSession: u.lastSession || 0,
@@ -1680,7 +1774,6 @@ function applyTheme(theme) {
   const b = document.getElementById('appThemeToggle');
   if(a) a.innerHTML = icon + '<span class="theme-label">' + label + '</span>';
   if(b) b.innerHTML = icon + '<span class="theme-label">' + label + '</span>';
-  if(googleIdentityInitialized) renderGoogleButton();
 }
 
 function toggleTheme() {
